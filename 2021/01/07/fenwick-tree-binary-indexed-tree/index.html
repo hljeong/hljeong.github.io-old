@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+<meta  lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#fff" id="theme-color">
+  <link rel="icon" href="/img/mphillotry.png">
+  <title>mphillotry's blog</title>
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+    var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+      }
+    };
+    setDarkmode();
+  </script>
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  </script>
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_vpj3dq9ceqa.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  <link rel="preload" href="//cdn.jsdelivr.net/npm/fslightbox@3.1.0/index.min.js" as="script">
+  
+  
+  <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  <link rel="prefetch" href="//cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-svg.js" as="script">
+  
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_vpj3dq9ceqa.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+
+  
+  
+  
+  
+  
+  <link href="/js/lib/prism/prism-tomorrow.min.css" rel="stylesheet" data-prism="prism-tomorrow">
+  
+  
+  
+<link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+
+  
+  
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="wrapper">
+    
+    <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+      <img class="navbar-logo-img" src="/img/mphillotry.png">
+      
+      <span class="navbar-logo-dsc">mphillotry's blog</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+    <a href="/" class="navbar-menu-item">Home </a>
+    
+    <a href="/archives" class="navbar-menu-item">Archive </a>
+    
+    <a href="/tags" class="navbar-menu-item">Tags </a>
+    
+    <a href="/categories" class="navbar-menu-item">Categories </a>
+    
+    <a href="/about" class="navbar-menu-item">About </a>
+    
+    <a href="/links" class="navbar-menu-item">Friends </a>
+    
+    <a class="navbar-menu-item darknavbar" id="dark"><i class="iconfont icon-weather"></i></a>
+  </div>
+</nav>
+    
+    <div class="section-wrap">
+      <div class="container">
+        <div class="columns">
+          <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      fenwick tree (binary indexed tree)
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2021-01-08T05:02:35.000Z" style="display: flex; align-items: center;">
+      <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
+      <span>2021-01-07</span>
+    </time>
+    
+    <span class="dot"></span>
+    
+    <a href="/categories/topics/" class="post-meta-link">topics</a>
+    
+    
+    
+    <span class="dot"></span>
+    <span>824 words</span>
+    
+  </div>
+  
+  <div class="post-meta post-show-meta" style="margin-top: -10px;">
+    <div style="display: flex; align-items: center;">
+      <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
+      
+      
+        <a href="/tags/data-structure/" class="post-meta-link">data-structure</a>
+      
+    </div>
+  </div>
+  
+  </header>
+  <div id="section" class="post-content">
+    <h1 id="motivation">motivation</h1>
+<p>given an array <span class="math inline">\(a\)</span> (1-indexed) of length <span class="math inline">\(n\)</span>, suppose we want to efficiently find <span class="math inline">\(sum_{l, r} = a_l + a_{l + 1} + \cdots + a_r\)</span> for any given pair of <span class="math inline">\(l\)</span> and <span class="math inline">\(r\)</span>.</p>
+<p>we can easily do so with a prefix sum array, precomputing <span class="math inline">\(pre_i = \sum_{j = 1}^{i} a_j\)</span> for <span class="math inline">\(i = 0, 1, 2, \dots, n\)</span> in <span class="math inline">\(\mathcal O(n)\)</span> time. each query can be computed in <span class="math inline">\(\mathcal O(1)\)</span> time: <span class="math inline">\(sum_{l, r} = pre_r - pre_{l - 1}\)</span>.</p>
+<p>however, if we also want to efficiently perform point updates, e.g. add <span class="math inline">\(x\)</span> to <span class="math inline">\(a_i\)</span>, between range sum queries, we cannot use a prefix sum array anymore since updating a single element <span class="math inline">\(a_i\)</span> requires updating all of <span class="math inline">\(pre_i, pre_{i + 1}, \dots, pre_n\)</span>, which takes <span class="math inline">\(\mathcal O(n)\)</span> time.</p>
+<p>to reach a balance between executing the range sum query and the point update query, we can use a fenwick tree which does both in <span class="math inline">\(\mathcal O(\log n)\)</span> time.</p>
+<h1 id="fenwick-tree-binary-indexed-tree">fenwick tree (binary indexed tree)</h1>
+<p>the fenwick tree, like the prefix sum array, computes range sum queries by first computing 2 prefix sums then subtracting them.</p>
+<p>the central idea of the fenwick tree is to maintain sums of smaller ranges corresponding to each bit in the binary representation of each index (hence "binary indexed tree").</p>
+<p>let's look at the range <span class="math inline">\([1, 13]\)</span>. the binary representation of 13 is <span class="math inline">\(1101_2\)</span>. separating each bit, we get 3 ranges: <span class="math inline">\([0001_2, 1000_2]\)</span>, <span class="math inline">\([1001_2, 1100_2]\)</span>. to make it a little cleaner, let's make the left bound exclusive: now we have <span class="math inline">\((0000_2, 1000_2]\)</span>, <span class="math inline">\((1000_2, 1100_2]\)</span> and <span class="math inline">\((1100_2, 1101_2]\)</span>, or <span class="math inline">\((0, 8]\)</span>, <span class="math inline">\((8, 12]\)</span>, and <span class="math inline">\((12, 13]\)</span>, therefore we only need to maintain the sums of these 3 ranges to find the sum of the range <span class="math inline">\([1, 13]\)</span>.</p>
+<p><a target="_blank" rel="noopener" href="https://imgur.com/KnvtBwo"><img src="https://i.imgur.com/KnvtBwo.png" title="source: imgur.com" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://i.imgur.com/KnvtBwo.png" class="lozad post-image"></a></p>
+<p>how do we know which ranges to store then?</p>
+<p>let's first define <span class="math inline">\(lowbit_i\)</span> to be the lowest set bit of <span class="math inline">\(i\)</span>, e.g. <span class="math inline">\(lowbit_{13} = lowbit_{1101_2} = 1_2 = 1\)</span> and <span class="math inline">\(lowbit_{12} = lowbit_{1100_2} = 100_2 = 4\)</span>.</p>
+<p>note that every number <span class="math inline">\(i\)</span> defines a unique range <span class="math inline">\((i - lowbit_i, i]\)</span> such that <span class="math inline">\((0, i] = (0, i - lowbit_i] \cup (i - lowbit_i, i]\)</span>.</p>
+<p>then <span class="math inline">\(sum_{1, i} = sum_{1, i - lowbit_i} + sum_{i - lowbit_i + 1, i}\)</span>. therefore if we store <span class="math inline">\(sum_{i - lowbit_i + 1, i}\)</span> for each <span class="math inline">\(i\)</span>, we can compute <span class="math inline">\(sum_{1, i}\)</span> in <span class="math inline">\(\mathcal O(\log n)\)</span> time since there are at most <span class="math inline">\((\left \lfloor \lg i \right \rfloor + 1)\)</span> set bits in <span class="math inline">\(i\)</span>.</p>
+<p>since we are storing sums of ranges, whenever we update an element, there may be multiple sums we need to update. let's first look at all the ranges we are storing the sums of.</p>
+<p><a target="_blank" rel="noopener" href="https://imgur.com/rrmCvNg"><img src="https://i.imgur.com/rrmCvNg.png" title="source: imgur.com" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://i.imgur.com/rrmCvNg.png" class="lozad post-image"></a></p>
+<p>suppose we are adding <span class="math inline">\(x\)</span> to <span class="math inline">\(a_i\)</span>. then we need to add <span class="math inline">\(x\)</span> to every range that contains <span class="math inline">\(i\)</span>. let's connect each range with the smallest range that contains it.</p>
+<p><a target="_blank" rel="noopener" href="https://imgur.com/DKS7hXS"><img src="https://i.imgur.com/DKS7hXS.png" title="source: imgur.com" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://i.imgur.com/DKS7hXS.png" class="lozad post-image"></a></p>
+<p>we can see that it forms a forest (a tree if <span class="math inline">\(n\)</span> is a power of 2). let's denote a node representing the interval <span class="math inline">\((i - lowbit_i, i]\)</span> as node <span class="math inline">\(i\)</span>. to update <span class="math inline">\(a_i\)</span>, we simply travel up the tree from the node <span class="math inline">\(i\)</span> to the root. for example, if <span class="math inline">\(i = 5\)</span>, then we need to update node 5, node 6, and node 8.</p>
+<p><a target="_blank" rel="noopener" href="https://imgur.com/JG3UZSW"><img src="https://i.imgur.com/JG3UZSW.png" title="source: imgur.com" / srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://i.imgur.com/JG3UZSW.png" class="lozad post-image"></a></p>
+<p>observe the binary representations of the nodes we update: <span class="math display">\[
+    0101_2 \rightarrow 0110_2 \rightarrow 1000_2
+\]</span></p>
+<p>note that at each step we clear the rightmost contiguous segment of set bits and set the bit immediately to the left of that to 1, which is equivalent to adding <span class="math inline">\(lowbit_i\)</span> to <span class="math inline">\(i\)</span>. this gives us the smallest <span class="math inline">\(j\)</span> such that <span class="math inline">\((i - lowbit_i, i] \subset (j - lowbit_j, j]\)</span>. note that for every update query, this step is repeated no more than <span class="math inline">\(\left \lfloor \lg n \right \rfloor + 1\)</span> times since the max height of all trees in the forest is at most <span class="math inline">\(\left \lfloor \lg n \right \rfloor + 1\)</span>. therefore we can update any element in <span class="math inline">\(\mathcal O(\log n)\)</span> time.</p>
+<h1 id="implementation">implementation</h1>
+<p>we need an array to store the <span class="math inline">\(n\)</span> sums (the ranges are 1-indexed but our array is 0-indexed, hence <code>MAXN + 1</code>). <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span> fenwick<span class="token punctuation">[</span>MAXN <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre> note that <span class="math inline">\(lowbit_i = x\ \&amp;\ -x\)</span> where <span class="math inline">\(\&amp;\)</span> is the bitwise AND operator. <a target="_blank" rel="noopener" href="https://www.quora.com/What-does-x-x-lowbit-do-in-C++/answer/Matthew-L-Reigada">here</a> is an explanation for this trick. <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span> <span class="token function">lowbit</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> i <span class="token operator">&amp;</span> <span class="token operator">-</span>i<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre> for the range sum query, we repeatedly add <span class="math inline">\(sum_{i - lowbit_i + 1, i}\)</span> to the result until <span class="math inline">\(i = 0\)</span>. <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token comment">// returns prefix sum up to the i-th term</span>
+<span class="token keyword">int</span> <span class="token function">query</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> ans <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>i <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        ans <span class="token operator">+=</span> fenwick<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        i <span class="token operator">-=</span> <span class="token function">lowbit</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> ans<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre> for the update query, we repeatedly add <span class="math inline">\(x\)</span> to the next smallest range that contains the current range until <span class="math inline">\(i &gt; n\)</span>. <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token comment">// adds x to the (i - 1)-th term</span>
+<span class="token keyword">void</span> <span class="token function">update</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token punctuation">,</span> <span class="token keyword">int</span> x<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token operator">++</span>i<span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;=</span> n<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        fenwick<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+=</span> x<span class="token punctuation">;</span>
+        i <span class="token operator">+=</span> <span class="token function">lowbit</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre> for complete and concise implementations, see <a target="_blank" rel="noopener" href="https://github.com/hljeong/cp-templates/blob/main/cpp/fenwick.cpp">here (c++)</a> and <a target="_blank" rel="noopener" href="https://github.com/hljeong/cp-templates/blob/main/java/fenwick.java">here (java)</a></p>
+<h1 id="problems">problems</h1>
+<p><em>under construction</em></p>
+
+  </div>
+  <div>
+  
+  </div>
+</article>
+<div class="nav">
+  
+  
+  <div class="nav-item-next">
+    <a href="/2021/01/05/codeforces-round-693-div-3/" class="nav-link">
+      <div>
+        <div class="nav-label">Next</div>
+        
+        <div class="nav-title">codeforces round 693 (div 3) </div>
+        
+      </div>
+      <i class="iconfont icon-right nav-next-icon"></i>
+    </a>
+  </div>
+  
+</div>
+
+<div class="card card-content toc-card" id="mobiletoc">
+  <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>Content</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#motivation"><span class="toc-text">motivation</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#fenwick-tree-binary-indexed-tree"><span class="toc-text">fenwick tree (binary indexed tree)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#implementation"><span class="toc-text">implementation</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#problems"><span class="toc-text">problems</span></a></li></ol>
+</div></main>
+          <aside class="left-column">
+            
+            <div class="card card-author">
+              
+<img src="/img/mphillotry.png" class="author-img">
+
+<p class="author-name">mphillotry</p>
+<p class="author-description">aka Ho Lyun Jeong</p>
+<div class="author-message">
+  <a class="author-posts-count" href="/archives">
+    <span>2</span>
+    <span>Posts</span>
+  </a>
+  <a class="author-categories-count" href="/categories">
+    <span>2</span>
+    <span>Categories</span>
+  </a>
+  <a class="author-tags-count" href="/tags">
+    <span>2</span>
+    <span>Tags</span>
+  </a>
+</div>
+
+<div class="author-card-society">
+  
+    <div class="author-card-society-icon">
+      <a target="_blank" rel="noopener" href="https://github.com/hljeong">
+        <i class="iconfont icon-github society-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+            </div>
+            
+            <div class="sticky-tablet">
+  
+  
+  <article class="display-when-two-columns spacer">
+    <div class="card card-content toc-card">
+      <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>Content</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#motivation"><span class="toc-text">motivation</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#fenwick-tree-binary-indexed-tree"><span class="toc-text">fenwick tree (binary indexed tree)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#implementation"><span class="toc-text">implementation</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#problems"><span class="toc-text">problems</span></a></li></ol>
+    </div>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="categories-card">
+  <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>Categories</div>
+  <div class="categories-list">
+    
+      <a href="/categories/topics">
+        <div class="categories-list-item">
+          topics
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/set-solutions">
+        <div class="categories-list-item">
+          set-solutions
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content">
+    <div class="tags-card">
+  <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>Trending tags</div>
+  <div class="tags-list">
+    
+    <a href="\tags\codeforces" title="codeforces"><div class="tags-list-item">codeforces</div></a>
+    
+    <a href="\tags\data-structure" title="data-structure"><div class="tags-list-item">data-structure</div></a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+          <aside class="right-column">
+            <div class="sticky-widescreen">
+  
+  
+  <article class="card card-content toc-card">
+    <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>Content</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#motivation"><span class="toc-text">motivation</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#fenwick-tree-binary-indexed-tree"><span class="toc-text">fenwick tree (binary indexed tree)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#implementation"><span class="toc-text">implementation</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#problems"><span class="toc-text">problems</span></a></li></ol>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>Recent posts</div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-01-07</div>
+        <a href="/2021/01/07/fenwick-tree-binary-indexed-tree/"><div class="recent-posts-item-content">fenwick tree (binary indexed tree)</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-01-05</div>
+        <a href="/2021/01/05/codeforces-round-693-div-3/"><div class="recent-posts-item-content">codeforces round 693 (div 3)</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>Copyright ©
+          
+          2021
+        </span>
+        <a href="/" class="footer-link">&nbsp;mphillotry's blog </a>
+      </div>
+    </div>
+
+    
+    <div class="footer-dsc">
+      
+      
+      Powered by
+      <a href="https://hexo.io/" class="footer-link" target="_blank" rel="nofollow noopener noreferrer">&nbsp;Hexo </a>
+      
+      
+      <span>&nbsp;|&nbsp;</span>
+      
+      
+      
+      Theme -
+      <a href="https://github.com/theme-kaze" class="footer-link" target="_blank"
+        rel="nofollow noopener noreferrer">&nbsp;Kaze</a>
+      
+    </div>
+    
+    
+    
+    
+</footer>
+  <a role="button" id="scrollbutton" class="basebutton" >
+  <i class="iconfont icon-arrowleft button-icon"></i>
+</a>
+<a role="button" id="menubutton" class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a role="button" id="popbutton" class="basebutton">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a role="button" id="darkbutton" class="basebutton darkwidget">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+
+  
+  
+  
+
+  
+  
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        }
+      };
+    </script>
+    
+<script src="//cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-svg.js"></script>
+
+  
+
+  
+  
+  <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img');
+    var i;
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a');
+      wrapper.setAttribute('data-fslightbox', 'gallery');
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'));
+      wrapper.setAttribute('style', 'width: 100%; display: flex; justify-content: center;');
+      img[i].parentElement.insertBefore(wrapper, img[i]);
+      wrapper.appendChild(img[i]);
+    }
+    refreshFsLightbox();
+  }
+</script>
+<script>loadScript("//cdn.jsdelivr.net/npm/fslightbox@3.1.0/index.min.js", addImgLayout)</script>
+  
+  
+  
+<script src="/js/main.js"></script>
+
+  
+  
+  <script>
+    var addLazyload = function () {
+      var observer = lozad('.lozad', {
+        load: function (el) {
+          el.srcset = el.getAttribute('data-src');
+        },
+        loaded: function (el) {
+          el.classList.add('loaded');
+        }
+      });
+      observer.observe();
+    }
+  </script>
+  <script>loadScript("/js/lib/lozad.min.js", addLazyload)</script>
+  
+  
+</body>
+
+</html>
