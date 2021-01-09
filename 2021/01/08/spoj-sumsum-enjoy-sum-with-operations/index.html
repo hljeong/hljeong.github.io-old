@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+<meta  lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#fff" id="theme-color">
+  <link rel="icon" href="/img/mphillotry.png">
+  <title>mphillotry's blog</title>
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+    var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+      }
+    };
+    setDarkmode();
+  </script>
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  </script>
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_vpj3dq9ceqa.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  <link rel="preload" href="//cdn.jsdelivr.net/npm/fslightbox@3.1.0/index.min.js" as="script">
+  
+  
+  <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  <link rel="prefetch" href="//cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-svg.js" as="script">
+  
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_vpj3dq9ceqa.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+
+  
+  
+  
+  
+  
+  <link href="/js/lib/prism/prism-tomorrow.min.css" rel="stylesheet" data-prism="prism-tomorrow">
+  
+  
+  
+<link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+
+  
+  
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="wrapper">
+    
+    <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+      <img class="navbar-logo-img" src="/img/mphillotry.png">
+      
+      <span class="navbar-logo-dsc">mphillotry's blog</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+    <a href="/" class="navbar-menu-item">Home </a>
+    
+    <a href="/archives" class="navbar-menu-item">Archive </a>
+    
+    <a href="/tags" class="navbar-menu-item">Tags </a>
+    
+    <a href="/categories" class="navbar-menu-item">Categories </a>
+    
+    <a href="/about" class="navbar-menu-item">About </a>
+    
+    <a href="/links" class="navbar-menu-item">Friends </a>
+    
+    <a class="navbar-menu-item darknavbar" id="dark"><i class="iconfont icon-weather"></i></a>
+  </div>
+</nav>
+    
+    <div class="section-wrap">
+      <div class="container">
+        <div class="columns">
+          <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      spoj sumsum - enjoy sum with operations
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2021-01-09T05:09:59.000Z" style="display: flex; align-items: center;">
+      <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
+      <span>2021-01-08</span>
+    </time>
+    
+    <span class="dot"></span>
+    
+    <a href="/categories/problem-solution/" class="post-meta-link">problem-solution</a>
+    
+    
+    
+    <span class="dot"></span>
+    <span>564 words</span>
+    
+  </div>
+  
+  <div class="post-meta post-show-meta" style="margin-top: -10px;">
+    <div style="display: flex; align-items: center;">
+      <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
+      
+      
+        <a href="/tags/spoj/" class="post-meta-link">spoj</a>
+      
+      
+      <span class="dot"></span>
+      
+        <a href="/tags/data-structure/" class="post-meta-link">data structure</a>
+      
+      
+      <span class="dot"></span>
+      
+        <a href="/tags/math/" class="post-meta-link">math</a>
+      
+    </div>
+  </div>
+  
+  </header>
+  <div id="section" class="post-content">
+    <h1 id="spoj-sumsum---enjoy-sum-with-operations"><a target="_blank" rel="noopener" href="https://www.spoj.com/problems/SUMSUM/">spoj sumsum - enjoy sum with operations</a></h1>
+<h2 id="problem-statement">problem statement</h2>
+<p>given an array <span class="math inline">\(a\)</span> of length <span class="math inline">\(n\)</span>, perform <span class="math inline">\(m\)</span> queries of 2 types:</p>
+<ol type="1">
+<li>set <span class="math inline">\(a_i\)</span> to <span class="math inline">\(x\)</span></li>
+<li>compute the sum of the bitwise OR (or AND or XOR) of all pairs of elements in <span class="math inline">\(\{a_i, a_{i + 1}, \dots, a_j \}\)</span></li>
+</ol>
+<h2 id="solution">solution</h2>
+<p>let's look at the second type of queries. first, note that since they only concern bitwise operations, we can compute the contribution of each bit independently.</p>
+<p>the query then simplifies to "given an array <span class="math inline">\(b\)</span> of bits of length <span class="math inline">\(n\)</span>, find the number of pairs of elements that have a bitwise OR (or AND or XOR) of 1 in <span class="math inline">\(\{b_i, b_{i + 1}, dots, b_j\}\)</span>." we can easily find this value if we know the number of elements, <span class="math inline">\(k = j - i + 1\)</span>, the number of 0s, <span class="math inline">\(cnt0\)</span>, and the number of 1s, <span class="math inline">\(cnt1\)</span>, in <span class="math inline">\(\{b_i, b_{i + 1}, \dots, b_j\}\)</span>:</p>
+<ul>
+<li><span class="math inline">\(\text{number of pairs that have a bitwise OR of 1} = \begin{pmatrix} k \\ 2 \end{pmatrix} - \begin{pmatrix} cnt0 \\ 2 \end{pmatrix}\)</span></li>
+<li><span class="math inline">\(\text{number of pairs that have a bitwise AND of 1} = \begin{pmatrix} cnt1 \\ 2 \end{pmatrix}\)</span></li>
+<li><span class="math inline">\(\text{number of pairs that have a bitwise XOR of 1} = cnt0 \cdot cnt1\)</span></li>
+</ul>
+<p>then, considering both types of queries, we need to efficiently perform point updates and compute <span class="math inline">\(cnt0\)</span> and <span class="math inline">\(cnt1\)</span> for given ranges, and we can do so with a segment tree or a <a href="https://hljeong.github.io/2021/01/07/fenwick-tree-binary-indexed-tree/">fenwick tree</a>.</p>
+<h3 id="code">code</h3>
+<details>
+<summary>
+c++ <span class="math inline">\(\mathcal O(m \log n \log(\max(a)))\)</span>
+</summary>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;bits/stdc++.h></span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">ll</span> <span class="token expression"><span class="token keyword">long</span> <span class="token keyword">long</span></span></span>
+
+<span class="token keyword">const</span> <span class="token keyword">int</span> MAXN <span class="token operator">=</span> <span class="token number">1e5</span> <span class="token operator">+</span> <span class="token number">5</span><span class="token punctuation">,</span> MAXB <span class="token operator">=</span> <span class="token number">30</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> a<span class="token punctuation">[</span>MAXN<span class="token punctuation">]</span><span class="token punctuation">,</span> fenwick<span class="token punctuation">[</span>MAXB<span class="token punctuation">]</span><span class="token punctuation">[</span>MAXN<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> <span class="token function">upd</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token punctuation">,</span> <span class="token keyword">int</span> x<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> bit <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> bit <span class="token operator">&lt;</span> MAXB<span class="token punctuation">;</span> <span class="token operator">++</span>bit<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">int</span> diff <span class="token operator">=</span> <span class="token punctuation">(</span>x <span class="token operator">>></span> bit <span class="token operator">&amp;</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token punctuation">(</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">>></span> bit <span class="token operator">&amp;</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> ind <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span> ind <span class="token operator">&lt;</span> MAXN<span class="token punctuation">;</span> ind <span class="token operator">+=</span> ind <span class="token operator">&amp;</span> <span class="token operator">-</span>ind<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            fenwick<span class="token punctuation">[</span>bit<span class="token punctuation">]</span><span class="token punctuation">[</span>ind<span class="token punctuation">]</span> <span class="token operator">+=</span> diff<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> x<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// returns counts for each bit in a[:i]</span>
+vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token function">qry</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token function">ans</span><span class="token punctuation">(</span>MAXB<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> bit <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> bit <span class="token operator">&lt;</span> MAXB<span class="token punctuation">;</span> <span class="token operator">++</span>bit<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> ind <span class="token operator">=</span> i<span class="token punctuation">;</span> ind <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">;</span> ind <span class="token operator">-=</span> ind <span class="token operator">&amp;</span> <span class="token operator">-</span>ind<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            ans<span class="token punctuation">[</span>bit<span class="token punctuation">]</span> <span class="token operator">+=</span> fenwick<span class="token punctuation">[</span>bit<span class="token punctuation">]</span><span class="token punctuation">[</span>ind<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> ans<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// returns counts for each bit in a[i : j]</span>
+vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token function">qry</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token punctuation">,</span> <span class="token keyword">int</span> j<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> ans <span class="token operator">=</span> <span class="token function">qry</span><span class="token punctuation">(</span>j<span class="token punctuation">)</span><span class="token punctuation">,</span> subtract <span class="token operator">=</span> <span class="token function">qry</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> bit <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> bit <span class="token operator">&lt;</span> MAXB<span class="token punctuation">;</span> <span class="token operator">++</span>bit<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        ans<span class="token punctuation">[</span>bit<span class="token punctuation">]</span> <span class="token operator">-=</span> subtract<span class="token punctuation">[</span>bit<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> ans<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    ios<span class="token operator">::</span><span class="token function">sync_with_stdio</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cin<span class="token punctuation">.</span><span class="token function">tie</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">int</span> n<span class="token punctuation">,</span> m<span class="token punctuation">;</span>
+    cin <span class="token operator">>></span> n <span class="token operator">>></span> m<span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> m<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">int</span> x<span class="token punctuation">;</span>
+        cin <span class="token operator">>></span> x<span class="token punctuation">;</span>
+        <span class="token function">upd</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>m <span class="token operator">--</span><span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">int</span> t<span class="token punctuation">;</span>
+        cin <span class="token operator">>></span> t<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>t <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">int</span> x<span class="token punctuation">,</span> i<span class="token punctuation">;</span>
+            cin <span class="token operator">>></span> x <span class="token operator">>></span> i<span class="token punctuation">;</span>
+            <span class="token operator">--</span>i<span class="token punctuation">;</span>
+            <span class="token function">upd</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+            string op<span class="token punctuation">;</span>
+            <span class="token keyword">int</span> i<span class="token punctuation">,</span> j<span class="token punctuation">;</span>
+            cin <span class="token operator">>></span> op <span class="token operator">>></span> i <span class="token operator">>></span> j<span class="token punctuation">;</span>
+            <span class="token operator">--</span>i<span class="token punctuation">;</span>
+
+            vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> cnt <span class="token operator">=</span> <span class="token function">qry</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> j<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            ll ans <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> k <span class="token operator">=</span> j <span class="token operator">-</span> i<span class="token punctuation">;</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> bit <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> bit <span class="token operator">&lt;</span> MAXB<span class="token punctuation">;</span> <span class="token operator">++</span>bit<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                ll cnt1 <span class="token operator">=</span> cnt<span class="token punctuation">[</span>bit<span class="token punctuation">]</span><span class="token punctuation">,</span> cnt0 <span class="token operator">=</span> k <span class="token operator">-</span> cnt1<span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>op <span class="token operator">==</span> <span class="token string">"OR"</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    ans <span class="token operator">+=</span> <span class="token punctuation">(</span>k <span class="token operator">*</span> <span class="token punctuation">(</span>k <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> cnt0 <span class="token operator">*</span> <span class="token punctuation">(</span>cnt0 <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> bit<span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>op <span class="token operator">==</span> <span class="token string">"AND"</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    ans <span class="token operator">+=</span> cnt1 <span class="token operator">*</span> <span class="token punctuation">(</span>cnt1 <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">&lt;&lt;</span> bit<span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+                    ans <span class="token operator">+=</span> cnt0 <span class="token operator">*</span> cnt1 <span class="token operator">&lt;&lt;</span> bit<span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+            cout <span class="token operator">&lt;&lt;</span> ans <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</details>
+
+  </div>
+  <div>
+  
+  </div>
+</article>
+<div class="nav">
+  
+  
+  <div class="nav-item-next">
+    <a href="/2021/01/07/fenwick-tree-binary-indexed-tree/" class="nav-link">
+      <div>
+        <div class="nav-label">Next</div>
+        
+        <div class="nav-title">fenwick tree (binary indexed tree) </div>
+        
+      </div>
+      <i class="iconfont icon-right nav-next-icon"></i>
+    </a>
+  </div>
+  
+</div>
+
+<div class="card card-content toc-card" id="mobiletoc">
+  <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>Content</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#spoj-sumsum---enjoy-sum-with-operations"><span class="toc-text">spoj sumsum - enjoy sum with operations</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code"><span class="toc-text">code</span></a></li></ol></li></ol></li></ol>
+</div></main>
+          <aside class="left-column">
+            
+            <div class="card card-author">
+              
+<img src="/img/mphillotry.png" class="author-img">
+
+<p class="author-name">mphillotry</p>
+<p class="author-description">Ho Lyun Jeong | UCLA '24</p>
+<div class="author-message">
+  <a class="author-posts-count" href="/archives">
+    <span>3</span>
+    <span>Posts</span>
+  </a>
+  <a class="author-categories-count" href="/categories">
+    <span>3</span>
+    <span>Categories</span>
+  </a>
+  <a class="author-tags-count" href="/tags">
+    <span>5</span>
+    <span>Tags</span>
+  </a>
+</div>
+
+<div class="author-card-society">
+  
+    <div class="author-card-society-icon">
+      <a target="_blank" rel="noopener" href="https://github.com/hljeong">
+        <i class="iconfont icon-github society-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+            </div>
+            
+            <div class="sticky-tablet">
+  
+  
+  <article class="display-when-two-columns spacer">
+    <div class="card card-content toc-card">
+      <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>Content</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#spoj-sumsum---enjoy-sum-with-operations"><span class="toc-text">spoj sumsum - enjoy sum with operations</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code"><span class="toc-text">code</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="categories-card">
+  <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>Categories</div>
+  <div class="categories-list">
+    
+      <a href="/categories/problem-solution">
+        <div class="categories-list-item">
+          problem-solution
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/topics">
+        <div class="categories-list-item">
+          topics
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/set-solutions">
+        <div class="categories-list-item">
+          set-solutions
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content">
+    <div class="tags-card">
+  <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>Trending tags</div>
+  <div class="tags-list">
+    
+    <a href="\tags\codeforces" title="codeforces"><div class="tags-list-item">codeforces</div></a>
+    
+    <a href="\tags\data-structure" title="data-structure"><div class="tags-list-item">data-structure</div></a>
+    
+    <a href="\tags\math" title="math"><div class="tags-list-item">math</div></a>
+    
+    <a href="\tags\data structure" title="data structure"><div class="tags-list-item">data structure</div></a>
+    
+    <a href="\tags\spoj" title="spoj"><div class="tags-list-item">spoj</div></a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+          <aside class="right-column">
+            <div class="sticky-widescreen">
+  
+  
+  <article class="card card-content toc-card">
+    <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>Content</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#spoj-sumsum---enjoy-sum-with-operations"><span class="toc-text">spoj sumsum - enjoy sum with operations</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code"><span class="toc-text">code</span></a></li></ol></li></ol></li></ol>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>Recent posts</div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-01-08</div>
+        <a href="/2021/01/08/spoj-sumsum-enjoy-sum-with-operations/"><div class="recent-posts-item-content">spoj sumsum - enjoy sum with operations</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-01-07</div>
+        <a href="/2021/01/07/fenwick-tree-binary-indexed-tree/"><div class="recent-posts-item-content">fenwick tree (binary indexed tree)</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-01-05</div>
+        <a href="/2021/01/05/codeforces-round-693-div-3/"><div class="recent-posts-item-content">codeforces round 693 (div 3)</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>Copyright ©
+          
+          2021
+        </span>
+        <a href="/" class="footer-link">&nbsp;mphillotry's blog </a>
+      </div>
+    </div>
+
+    
+    <div class="footer-dsc">
+      
+      
+      Powered by
+      <a href="https://hexo.io/" class="footer-link" target="_blank" rel="nofollow noopener noreferrer">&nbsp;Hexo </a>
+      
+      
+      <span>&nbsp;|&nbsp;</span>
+      
+      
+      
+      Theme -
+      <a href="https://github.com/theme-kaze" class="footer-link" target="_blank"
+        rel="nofollow noopener noreferrer">&nbsp;Kaze</a>
+      
+    </div>
+    
+    
+    
+    
+</footer>
+  <a role="button" id="scrollbutton" class="basebutton" >
+  <i class="iconfont icon-arrowleft button-icon"></i>
+</a>
+<a role="button" id="menubutton" class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a role="button" id="popbutton" class="basebutton">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a role="button" id="darkbutton" class="basebutton darkwidget">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+
+  
+  
+  
+
+  
+  
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        }
+      };
+    </script>
+    
+<script src="//cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-svg.js"></script>
+
+  
+
+  
+  
+  <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img');
+    var i;
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a');
+      wrapper.setAttribute('data-fslightbox', 'gallery');
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'));
+      wrapper.setAttribute('style', 'width: 100%; display: flex; justify-content: center;');
+      img[i].parentElement.insertBefore(wrapper, img[i]);
+      wrapper.appendChild(img[i]);
+    }
+    refreshFsLightbox();
+  }
+</script>
+<script>loadScript("//cdn.jsdelivr.net/npm/fslightbox@3.1.0/index.min.js", addImgLayout)</script>
+  
+  
+  
+<script src="/js/main.js"></script>
+
+  
+  
+  <script>
+    var addLazyload = function () {
+      var observer = lozad('.lozad', {
+        load: function (el) {
+          el.srcset = el.getAttribute('data-src');
+        },
+        loaded: function (el) {
+          el.classList.add('loaded');
+        }
+      });
+      observer.observe();
+    }
+  </script>
+  <script>loadScript("/js/lib/lozad.min.js", addLazyload)</script>
+  
+  
+</body>
+
+</html>
