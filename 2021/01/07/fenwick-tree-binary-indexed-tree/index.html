@@ -182,7 +182,7 @@
   
   </header>
   <div id="section" class="post-content">
-    <h1 id="motivation">motivation</h1>
+    <h1 id="introduction">introduction</h1>
 <p>given an array <span class="math inline">\(a\)</span> (1-indexed) of length <span class="math inline">\(n\)</span>, suppose we want to efficiently find <span class="math inline">\(sum_{l, r} = a_l + a_{l + 1} + \cdots + a_r\)</span> for any given pair of <span class="math inline">\(l\)</span> and <span class="math inline">\(r\)</span>.</p>
 <p>we can easily do so with a prefix sum array, precomputing <span class="math inline">\(pre_i = \sum_{j = 1}^{i} a_j\)</span> for <span class="math inline">\(i = 0, 1, 2, \dots, n\)</span> in <span class="math inline">\(\mathcal O(n)\)</span> time. each query can be computed in <span class="math inline">\(\mathcal O(1)\)</span> time: <span class="math inline">\(sum_{l, r} = pre_r - pre_{l - 1}\)</span>.</p>
 <p>however, if we also want to efficiently perform point updates, e.g. add <span class="math inline">\(x\)</span> to <span class="math inline">\(a_i\)</span>, between range sum queries, we cannot use a prefix sum array anymore since updating a single element <span class="math inline">\(a_i\)</span> requires updating all of <span class="math inline">\(pre_i, pre_{i + 1}, \dots, pre_n\)</span>, which takes <span class="math inline">\(\mathcal O(n)\)</span> time.</p>
@@ -265,7 +265,7 @@
 
 <div class="card card-content toc-card" id="mobiletoc">
   <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>Content</div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#motivation"><span class="toc-text">motivation</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#fenwick-tree-binary-indexed-tree"><span class="toc-text">fenwick tree (binary indexed tree)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#implementation"><span class="toc-text">implementation</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#practice"><span class="toc-text">practice</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#codeforces-459d---pashmak-and-parmidas-problem"><span class="toc-text">codeforces 459d - pashmak and parmida&#39;s problem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#spoj-sumsum---enjoy-sum-with-operations-solution"><span class="toc-text">spoj sumsum - enjoy sum with operations (solution)</span></a></li></ol></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#introduction"><span class="toc-text">introduction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#fenwick-tree-binary-indexed-tree"><span class="toc-text">fenwick tree (binary indexed tree)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#implementation"><span class="toc-text">implementation</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#practice"><span class="toc-text">practice</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#codeforces-459d---pashmak-and-parmidas-problem"><span class="toc-text">codeforces 459d - pashmak and parmida&#39;s problem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#spoj-sumsum---enjoy-sum-with-operations-solution"><span class="toc-text">spoj sumsum - enjoy sum with operations (solution)</span></a></li></ol></li></ol></li></ol>
 </div></main>
           <aside class="left-column">
             
@@ -277,7 +277,7 @@
 <p class="author-description">Ho Lyun Jeong | UCLA '24</p>
 <div class="author-message">
   <a class="author-posts-count" href="/archives">
-    <span>3</span>
+    <span>4</span>
     <span>Posts</span>
   </a>
   <a class="author-categories-count" href="/categories">
@@ -285,7 +285,7 @@
     <span>Categories</span>
   </a>
   <a class="author-tags-count" href="/tags">
-    <span>5</span>
+    <span>7</span>
     <span>Tags</span>
   </a>
 </div>
@@ -308,7 +308,7 @@
   <article class="display-when-two-columns spacer">
     <div class="card card-content toc-card">
       <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>Content</div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#motivation"><span class="toc-text">motivation</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#fenwick-tree-binary-indexed-tree"><span class="toc-text">fenwick tree (binary indexed tree)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#implementation"><span class="toc-text">implementation</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#practice"><span class="toc-text">practice</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#codeforces-459d---pashmak-and-parmidas-problem"><span class="toc-text">codeforces 459d - pashmak and parmida&#39;s problem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#spoj-sumsum---enjoy-sum-with-operations-solution"><span class="toc-text">spoj sumsum - enjoy sum with operations (solution)</span></a></li></ol></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#introduction"><span class="toc-text">introduction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#fenwick-tree-binary-indexed-tree"><span class="toc-text">fenwick tree (binary indexed tree)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#implementation"><span class="toc-text">implementation</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#practice"><span class="toc-text">practice</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#codeforces-459d---pashmak-and-parmidas-problem"><span class="toc-text">codeforces 459d - pashmak and parmida&#39;s problem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#spoj-sumsum---enjoy-sum-with-operations-solution"><span class="toc-text">spoj sumsum - enjoy sum with operations (solution)</span></a></li></ol></li></ol></li></ol>
     </div>
   </article>
   
@@ -318,16 +318,16 @@
   <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>Categories</div>
   <div class="categories-list">
     
-      <a href="/categories/problem-solution">
-        <div class="categories-list-item">
-          problem-solution
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
       <a href="/categories/topics">
         <div class="categories-list-item">
           topics
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/problem-solution">
+        <div class="categories-list-item">
+          problem-solution
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -350,13 +350,17 @@
     
     <a href="\tags\codeforces" title="codeforces"><div class="tags-list-item">codeforces</div></a>
     
-    <a href="\tags\data-structure" title="data-structure"><div class="tags-list-item">data-structure</div></a>
-    
     <a href="\tags\math" title="math"><div class="tags-list-item">math</div></a>
     
     <a href="\tags\data structure" title="data structure"><div class="tags-list-item">data structure</div></a>
     
     <a href="\tags\spoj" title="spoj"><div class="tags-list-item">spoj</div></a>
+    
+    <a href="\tags\network-flow" title="network-flow"><div class="tags-list-item">network-flow</div></a>
+    
+    <a href="\tags\graph-theory" title="graph-theory"><div class="tags-list-item">graph-theory</div></a>
+    
+    <a href="\tags\data-structure" title="data-structure"><div class="tags-list-item">data-structure</div></a>
     
   </div>
 </div>
@@ -371,7 +375,7 @@
   
   <article class="card card-content toc-card">
     <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>Content</div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#motivation"><span class="toc-text">motivation</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#fenwick-tree-binary-indexed-tree"><span class="toc-text">fenwick tree (binary indexed tree)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#implementation"><span class="toc-text">implementation</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#practice"><span class="toc-text">practice</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#codeforces-459d---pashmak-and-parmidas-problem"><span class="toc-text">codeforces 459d - pashmak and parmida&#39;s problem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#spoj-sumsum---enjoy-sum-with-operations-solution"><span class="toc-text">spoj sumsum - enjoy sum with operations (solution)</span></a></li></ol></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#introduction"><span class="toc-text">introduction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#fenwick-tree-binary-indexed-tree"><span class="toc-text">fenwick tree (binary indexed tree)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#implementation"><span class="toc-text">implementation</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#practice"><span class="toc-text">practice</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#codeforces-459d---pashmak-and-parmidas-problem"><span class="toc-text">codeforces 459d - pashmak and parmida&#39;s problem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#spoj-sumsum---enjoy-sum-with-operations-solution"><span class="toc-text">spoj sumsum - enjoy sum with operations (solution)</span></a></li></ol></li></ol></li></ol>
   </article>
   
   
@@ -379,6 +383,11 @@
     <div class="recent-posts-card">
   <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>Recent posts</div>
   <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-01-12</div>
+        <a href="/2021/01/12/maximum-flow/"><div class="recent-posts-item-content">maximum flow</div></a>
+      </div>
     
       <div class="recent-posts-item">
         <div class="recent-posts-item-title">2021-01-08</div>
