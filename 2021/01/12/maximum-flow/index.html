@@ -166,7 +166,7 @@
     
     
     <span class="dot"></span>
-    <span>197 words</span>
+    <span>420 words</span>
     
   </div>
   
@@ -189,7 +189,9 @@
   <div id="section" class="post-content">
     <h1 id="introduction">introduction</h1>
 <p>a <strong>network</strong> is a graph <span class="math inline">\(G = (V, E)\)</span> together with its <strong>capacity</strong> function <span class="math inline">\(c \colon V \times V \to [0, \infty]\)</span>.</p>
-<p>a <strong>flow network</strong> is a network with two distinguished nodes: <strong>source</strong> <span class="math inline">\(s\)</span> and <strong>sink</strong> <span class="math inline">\(t\)</span>.</p>
+<p>a <strong>flow network</strong> <span class="math inline">\((G, c, s, t)\)</span> is a network with two distinguished nodes: <strong>source</strong> <span class="math inline">\(s\)</span> and <strong>sink</strong> <span class="math inline">\(t\)</span>.</p>
+<p>below is an example of a flow network, with <span class="math inline">\(s = 1\)</span> and <span class="math inline">\(t = 4\)</span>:</p>
+<p><a target="_blank" rel="noopener" href="https://imgur.com/IBlICES"><img src="https://i.imgur.com/IBlICES.png" title="source: imgur.com" width="75%"/ srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://i.imgur.com/IBlICES.png" class="lozad post-image"></a></p>
 <p>a <strong>flow</strong> is a function <span class="math inline">\(f \colon V \times V \to \mathbb R\)</span> such that</p>
 <ul>
 <li><span class="math inline">\(f(u, v) = -f(v, u)\)</span> for all nodes <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span>,</li>
@@ -198,12 +200,29 @@
 <li><span class="math inline">\(\sum_{u \in V} f(u, s) = 0\)</span>, and</li>
 <li><span class="math inline">\(\sum_{u \in V} f(t, u) = 0\)</span>.</li>
 </ul>
+<p>below is an example of a flow in the above flow network:</p>
+<p><a target="_blank" rel="noopener" href="https://imgur.com/pevBnZb"><img src="https://i.imgur.com/pevBnZb.png" title="source: imgur.com" width="75%"/ srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://i.imgur.com/pevBnZb.png" class="lozad post-image"></a></p>
 <p>the <strong>value</strong> <span class="math inline">\(\left | f \right |\)</span> of a flow <span class="math inline">\(f\)</span> is defined by <span class="math display">\[
     \left | f \right | = \sum_{u \in V} f(s, u) = \sum_{u \in V} f(u, t).
 \]</span></p>
-<p>suppose we want to find the maximum value of a flow in a given flow network. we can use the ford-fulkerson method to solve this problem.</p>
+<p>suppose we want to find a flow of maximum value in a given flow network. we can use the ford-fulkerson method to solve this problem.</p>
 <h1 id="ford-fulkerson-method">ford-fulkerson method</h1>
-<p>// todo</p>
+<p>the <strong>residual capacity</strong> <span class="math inline">\(r(u, v)\)</span> of an edge <span class="math inline">\((u, v)\)</span> is defined by <span class="math inline">\(r(u, v) = c(u, v) - f(u, v)\)</span>.</p>
+<p>we can then construct the <strong>residual network</strong> <span class="math inline">\((G, r, s, t)\)</span> of the flow network <span class="math inline">\((G, c, s, t)\)</span>.</p>
+<p>an <strong>augmenting path</strong> is a simple path <span class="math inline">\(p = ((s, v_1), (v_1, v_2), \dots, (v_{n - 2}, t))\)</span> from <span class="math inline">\(s\)</span> to <span class="math inline">\(t\)</span> in the residual network such that <span class="math inline">\(r(u, v) &gt; 0\)</span> for all <span class="math inline">\((u, v) \in p\)</span>.</p>
+<p>the ford-fulkerson method works as follows:</p>
+<ol type="1">
+<li>set <span class="math inline">\(f(u, v) = 0\)</span> for all <span class="math inline">\(u, v \in V\)</span>.</li>
+<li>construct the residual network.</li>
+<li>find an augmenting path <span class="math inline">\(p\)</span>. if an augmenting path cannot be found, the flow is maximal and the algorithm ends.</li>
+<li>let <span class="math inline">\(inc = \min_{(u, v) \in p}(r(u, v))\)</span>. <span class="math inline">\(f(u, v) += inc\)</span> and <span class="math inline">\(f(v, u) -= inc\)</span> for all <span class="math inline">\((u, v) \in p\)</span>.</li>
+<li>go to step 2.</li>
+</ol>
+<p>we will demonstrate the ford-fulkerson method on the flow network shown above:</p>
+<p><a target="_blank" rel="noopener" href="https://imgur.com/IBlICES"><img src="https://i.imgur.com/IBlICES.png" title="source: imgur.com" width="75%"/ srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://i.imgur.com/IBlICES.png" class="lozad post-image"></a></p>
+<p>after setting <span class="math inline">\(f(u, v) = 0\)</span> for all <span class="math inline">\(u, v \in V\)</span>, the residual network is the same as the original network. we find our first augmenting path:</p>
+<p><a target="_blank" rel="noopener" href="https://imgur.com/rKoleBB"><img src="https://i.imgur.com/rKoleBB.png" title="source: imgur.com" width="75%"/ srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://i.imgur.com/rKoleBB.png" class="lozad post-image"></a></p>
+<p>// to be continued...</p>
 <h1 id="edmonds-karp-algorithm">edmonds-karp algorithm</h1>
 <p>// todo</p>
 <h1 id="dinics-algorithm">dinic's algorithm</h1>
@@ -268,7 +287,7 @@ dinic's algorithm
     <span>Categories</span>
   </a>
   <a class="author-tags-count" href="/tags">
-    <span>7</span>
+    <span>6</span>
     <span>Tags</span>
   </a>
 </div>
@@ -331,19 +350,17 @@ dinic's algorithm
   <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>Trending tags</div>
   <div class="tags-list">
     
+    <a href="\tags\data-structure" title="data-structure"><div class="tags-list-item">data-structure</div></a>
+    
     <a href="\tags\codeforces" title="codeforces"><div class="tags-list-item">codeforces</div></a>
     
     <a href="\tags\math" title="math"><div class="tags-list-item">math</div></a>
-    
-    <a href="\tags\data structure" title="data structure"><div class="tags-list-item">data structure</div></a>
     
     <a href="\tags\spoj" title="spoj"><div class="tags-list-item">spoj</div></a>
     
     <a href="\tags\network-flow" title="network-flow"><div class="tags-list-item">network-flow</div></a>
     
     <a href="\tags\graph-theory" title="graph-theory"><div class="tags-list-item">graph-theory</div></a>
-    
-    <a href="\tags\data-structure" title="data-structure"><div class="tags-list-item">data-structure</div></a>
     
   </div>
 </div>
