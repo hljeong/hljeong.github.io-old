@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.10.2)  13 JAN 2021 23:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.10.2)  18 JAN 2021 21:14
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -749,16 +749,16 @@ s been generated with the most recent feature set (\pgfplotsset{compat=1.17}).
 ./graphics.aux) ) 
 Here is how much of TeX's memory you used:
  25416 strings out of 480875
- 672693 string characters out of 5904574
+ 672695 string characters out of 5904574
  1033360 words of memory out of 5000000
  40663 multiletter control sequences out of 15000+600000
  537457 words of font info for 32 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 74i,8n,127p,731b,855s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 74i,8n,127p,731b,851s stack positions out of 5000i,500n,10000p,200000b,80000s
 {d:/Program Files/texlive/2020/texmf-dist/fonts/enc/dvips/base
 /8r.enc}<d:/Program Files/texlive/2020/texmf-dist/fonts/type1/urw/palatino/uplr
 8a.pfb>
-Output written on graphics.pdf (1 page, 12134 bytes).
+Output written on graphics.pdf (1 page, 12078 bytes).
 PDF statistics:
  16 PDF objects out of 1000 (max. 8388607)
  11 compressed objects within 1 object stream
