@@ -166,7 +166,7 @@
     
     
     <span class="dot"></span>
-    <span>877 words</span>
+    <span>1.4k words</span>
     
   </div>
   
@@ -241,9 +241,20 @@
 <p><a target="_blank" rel="noopener" href="https://imgur.com/eWnGJvT"><img src="https://i.imgur.com/eWnGJvT.png" title="source: imgur.com" width="75%"/ srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://i.imgur.com/eWnGJvT.png" class="lozad post-image"></a></p>
 <p>there are no more augmenting paths in the residual network, therefore the <span class="math inline">\(f\)</span> is the maximum flow on the given network with a value of 2.</p>
 <h1 id="edmonds-karp-algorithm">edmonds-karp algorithm</h1>
-<p>the edmonds-karp algorithm is an implementation of the ford-fulkerson method using breadth first search to find the shortest augmenting path at each step. the time complexity is <span class="math inline">\(\mathcal O(VE^2)\)</span>.</p>
+<p>the edmonds-karp algorithm is an implementation of the ford-fulkerson method using bfs to find the shortest augmenting path at each step. when an augmenting path is found, residual capacities are updated by backtracking along the found path instead of reconstructing the entire residual network. the time complexity is <span class="math inline">\(\mathcal O(VE^2)\)</span>.</p>
 <h1 id="dinics-algorithm">dinic's algorithm</h1>
-<p>// todo</p>
+<p>dinic's algorithm is an implementation of the ford-fulkerson method using bfs to generate a level graph of the residual network and using dfs to find augmenting paths to reach a blocking flow at each step.</p>
+<p>a <strong>blocking flow</strong> is a flow <span class="math inline">\(f\)</span> in a network <span class="math inline">\(((V, E), c, s, t)\)</span> such that there are no <span class="math inline">\(s-t\)</span> paths in graph <span class="math inline">\(G&#39; = (V, E&#39;)\)</span> where <span class="math inline">\(E&#39; = \left \{(u, v) ~ \colon ~ f(u, v) &lt; c(u, v) \right \}\)</span>. in words, a blocking flow a flow such that no more augmenting paths can be found.</p>
+<p>dinic's algorithm works as follows:</p>
+<ol type="1">
+<li>assign to each node <span class="math inline">\(i\)</span> a label <span class="math inline">\(label[i]\)</span> equal to its depth in the bfs tree rooted at <span class="math inline">\(s\)</span> considering only edges <span class="math inline">\((u, v)\)</span> such that <span class="math inline">\(f(u, v) &lt; c(u, v)\)</span>; if a node <span class="math inline">\(j\)</span> is unreachable from <span class="math inline">\(s\)</span>, then <span class="math inline">\(label[j] = \infty\)</span>.</li>
+<li>generate level graph <span class="math inline">\(G_L(V, E_L)\)</span> where <span class="math inline">\(E_L = \left \{ (u, v) ~ \colon ~ label[v] = label[u] + 1 \right \}\)</span>.</li>
+<li>if <span class="math inline">\(label[t] = \infty\)</span>, the flow is maximal and the algorithm ends</li>
+<li>run dfs on the level graph to find augmenting paths until a blocking flow is reached</li>
+<li>update the value of the flow and the residual capacities.</li>
+<li>go to step 1.</li>
+</ol>
+<p>the time complexity is <span class="math inline">\(\mathcal O(V^2E)\)</span>.</p>
 <h1 id="implementations">implementations</h1>
 <details>
 <summary>
@@ -263,7 +274,7 @@ edmonds-karp algorithm <span class="math inline">\(\mathcal O(VE^2)\)</span>
         q<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
         <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> v <span class="token operator">:</span> graph<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            <span class="token keyword">if</span> <span class="token punctuation">(</span>backtrack<span class="token punctuation">[</span>v<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token operator">and</span> capacity<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token punctuation">[</span>v<span class="token punctuation">]</span> <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>backtrack<span class="token punctuation">[</span>v<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token operator">&amp;&amp;</span> capacity<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token punctuation">[</span>v<span class="token punctuation">]</span> <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
                 <span class="token comment">// if unvisited and residual capacity is nonzero</span>
                 backtrack<span class="token punctuation">[</span>v<span class="token punctuation">]</span> <span class="token operator">=</span> u<span class="token punctuation">;</span>
                 <span class="token keyword">if</span> <span class="token punctuation">(</span>v <span class="token operator">==</span> t<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
@@ -280,7 +291,7 @@ edmonds-karp algorithm <span class="math inline">\(\mathcal O(VE^2)\)</span>
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span>
 
-<span class="token comment">// note that the contents of capacity may be changed</span>
+<span class="token comment">// note that the contents of capacity may be modified</span>
 <span class="token keyword">int</span> <span class="token function">edmonds_karp</span><span class="token punctuation">(</span><span class="token keyword">const</span> vector<span class="token operator">&lt;</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">>></span> <span class="token operator">&amp;</span>graph<span class="token punctuation">,</span> vector<span class="token operator">&lt;</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">>></span> <span class="token operator">&amp;</span>capacity<span class="token punctuation">,</span> <span class="token keyword">int</span> s<span class="token punctuation">,</span> <span class="token keyword">int</span> t<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
     <span class="token keyword">int</span> flow <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> inc<span class="token punctuation">;</span>
     vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token function">backtrack</span><span class="token punctuation">(</span>graph<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -289,7 +300,7 @@ edmonds-karp algorithm <span class="math inline">\(\mathcal O(VE^2)\)</span>
         <span class="token comment">// an augmenting path with value inc is found</span>
         flow <span class="token operator">+=</span> inc<span class="token punctuation">;</span>
 
-        <span class="token comment">// backtrack along the augmenting path to update residual capacity</span>
+        <span class="token comment">// backtrack along the augmenting path to update residual capacities</span>
         <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> current <span class="token operator">=</span> t<span class="token punctuation">,</span> previous <span class="token operator">=</span> backtrack<span class="token punctuation">[</span>current<span class="token punctuation">]</span><span class="token punctuation">;</span> current <span class="token operator">!=</span> s<span class="token punctuation">;</span> current <span class="token operator">=</span> previous<span class="token punctuation">,</span> previous <span class="token operator">=</span> backtrack<span class="token punctuation">[</span>current<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
             <span class="token comment">// update residual capacity</span>
             capacity<span class="token punctuation">[</span>previous<span class="token punctuation">]</span><span class="token punctuation">[</span>current<span class="token punctuation">]</span> <span class="token operator">-=</span> inc<span class="token punctuation">;</span>
@@ -299,16 +310,80 @@ edmonds-karp algorithm <span class="math inline">\(\mathcal O(VE^2)\)</span>
 
     <span class="token keyword">return</span> flow<span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-for a more concise implementation, see <a target="_blank" rel="noopener" href="https://github.com/hljeong/cp-templates/blob/main/cpp/edmonds_karp.cpp">here</a>.
+for concise implementations, see <a target="_blank" rel="noopener" href="https://github.com/hljeong/cp-templates/blob/main/cpp/edmonds_karp.cpp">here (c++)</a> and <a target="_blank" rel="noopener" href="https://github.com/hljeong/cp-templates/blob/main/java/edmonds_karp.java">here (java)</a>.
 </details>
+<br>
 <details>
 <summary>
-dinic's algorithm
+dinic's algorithm <span class="math inline">\(\mathcal O(V^2E)\)</span>
 </summary>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token comment">// todo</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">const</span> <span class="token keyword">int</span> INF <span class="token operator">=</span> <span class="token number">1e9</span> <span class="token operator">+</span> <span class="token number">7</span><span class="token punctuation">;</span>
+
+<span class="token keyword">bool</span> <span class="token function">dinic_bfs</span><span class="token punctuation">(</span><span class="token keyword">const</span> vector<span class="token operator">&lt;</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">>></span> <span class="token operator">&amp;</span>graph<span class="token punctuation">,</span> <span class="token keyword">const</span> vector<span class="token operator">&lt;</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">>></span> <span class="token operator">&amp;</span>capacity<span class="token punctuation">,</span> <span class="token keyword">int</span> s<span class="token punctuation">,</span> <span class="token keyword">int</span> t<span class="token punctuation">,</span> vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token operator">&amp;</span>label<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">fill</span><span class="token punctuation">(</span>label<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> label<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    label<span class="token punctuation">[</span>s<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+    queue<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> q<span class="token punctuation">;</span>
+    q<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">!</span>q<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">int</span> u <span class="token operator">=</span> q<span class="token punctuation">.</span><span class="token function">front</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        q<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> v <span class="token operator">:</span> graph<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>label<span class="token punctuation">[</span>v<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token operator">&amp;&amp;</span> capacity<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token punctuation">[</span>v<span class="token punctuation">]</span> <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token comment">// if unvisited and residual capacity is nonzero</span>
+                label<span class="token punctuation">[</span>v<span class="token punctuation">]</span> <span class="token operator">=</span> label<span class="token punctuation">[</span>u<span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+                q<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">return</span> label<span class="token punctuation">[</span>t<span class="token punctuation">]</span> <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// note that the contents of capacity may be modified</span>
+<span class="token keyword">int</span> <span class="token function">dinic_dfs</span><span class="token punctuation">(</span><span class="token keyword">const</span> vector<span class="token operator">&lt;</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">>></span> <span class="token operator">&amp;</span>graph<span class="token punctuation">,</span> vector<span class="token operator">&lt;</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">>></span> <span class="token operator">&amp;</span>capacity<span class="token punctuation">,</span> <span class="token keyword">int</span> t<span class="token punctuation">,</span> <span class="token keyword">const</span> vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token operator">&amp;</span>label<span class="token punctuation">,</span> <span class="token keyword">int</span> u<span class="token punctuation">,</span> <span class="token keyword">int</span> flow<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>u <span class="token operator">==</span> t<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// augmenting path found</span>
+        <span class="token keyword">return</span> flow<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// available amount of flow that can be used in augmenting paths</span>
+    <span class="token keyword">int</span> available <span class="token operator">=</span> flow<span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> v <span class="token operator">:</span> graph<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>available <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token comment">// no need to check for more augmenting paths</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>label<span class="token punctuation">[</span>v<span class="token punctuation">]</span> <span class="token operator">==</span> label<span class="token punctuation">[</span>u<span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&amp;&amp;</span> capacity<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token punctuation">[</span>v<span class="token punctuation">]</span> <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">int</span> use <span class="token operator">=</span> <span class="token function">dinic_dfs</span><span class="token punctuation">(</span>graph<span class="token punctuation">,</span> capacity<span class="token punctuation">,</span> t<span class="token punctuation">,</span> label<span class="token punctuation">,</span> v<span class="token punctuation">,</span> <span class="token function">min</span><span class="token punctuation">(</span>capacity<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token punctuation">[</span>v<span class="token punctuation">]</span><span class="token punctuation">,</span> available<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            available <span class="token operator">-=</span> use<span class="token punctuation">;</span>
+
+            <span class="token comment">// update residual capacities</span>
+            capacity<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token punctuation">[</span>v<span class="token punctuation">]</span> <span class="token operator">-=</span> use<span class="token punctuation">;</span>
+            capacity<span class="token punctuation">[</span>v<span class="token punctuation">]</span><span class="token punctuation">[</span>u<span class="token punctuation">]</span> <span class="token operator">+=</span> use<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// return the total amount of flow used in all augmenting paths</span>
+    <span class="token keyword">return</span> flow <span class="token operator">-</span> available<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">int</span> <span class="token function">dinic</span><span class="token punctuation">(</span><span class="token keyword">const</span> vector<span class="token operator">&lt;</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">>></span> <span class="token operator">&amp;</span>graph<span class="token punctuation">,</span> vector<span class="token operator">&lt;</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">>></span> <span class="token operator">&amp;</span>capacity<span class="token punctuation">,</span> <span class="token keyword">int</span> s<span class="token punctuation">,</span> <span class="token keyword">int</span> t<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> flow <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token function">label</span><span class="token punctuation">(</span>graph<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token function">dinic_bfs</span><span class="token punctuation">(</span>graph<span class="token punctuation">,</span> capacity<span class="token punctuation">,</span> s<span class="token punctuation">,</span> t<span class="token punctuation">,</span> label<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        flow <span class="token operator">+=</span> <span class="token function">dinic_dfs</span><span class="token punctuation">(</span>graph<span class="token punctuation">,</span> capacity<span class="token punctuation">,</span> t<span class="token punctuation">,</span> label<span class="token punctuation">,</span> s<span class="token punctuation">,</span> INF<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">return</span> flow<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+for concise implementations, see <a target="_blank" rel="noopener" href="https://github.com/hljeong/cp-templates/blob/main/cpp/dinic.cpp">here (c++)</a> and <a target="_blank" rel="noopener" href="https://github.com/hljeong/cp-templates/blob/main/java/dinic.java">here (java)</a>.
 </details>
 <h1 id="practice">practice</h1>
-<p>// todo</p>
+<h3 id="kattis-icecream2---ice-cream"><a target="_blank" rel="noopener" href="https://open.kattis.com/problems/icecream2">kattis icecream2 - ice cream</a></h3>
 
   </div>
   <div>
@@ -334,7 +409,7 @@ dinic's algorithm
 
 <div class="card card-content toc-card" id="mobiletoc">
   <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>Content</div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#introduction"><span class="toc-text">introduction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ford-fulkerson-method"><span class="toc-text">ford-fulkerson method</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#edmonds-karp-algorithm"><span class="toc-text">edmonds-karp algorithm</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dinics-algorithm"><span class="toc-text">dinic&#39;s algorithm</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#implementations"><span class="toc-text">implementations</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#practice"><span class="toc-text">practice</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#introduction"><span class="toc-text">introduction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ford-fulkerson-method"><span class="toc-text">ford-fulkerson method</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#edmonds-karp-algorithm"><span class="toc-text">edmonds-karp algorithm</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dinics-algorithm"><span class="toc-text">dinic&#39;s algorithm</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#implementations"><span class="toc-text">implementations</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#practice"><span class="toc-text">practice</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#kattis-icecream2---ice-cream"><span class="toc-text">kattis icecream2 - ice cream</span></a></li></ol></li></ol></li></ol>
 </div></main>
           <aside class="left-column">
             
@@ -377,7 +452,7 @@ dinic's algorithm
   <article class="display-when-two-columns spacer">
     <div class="card card-content toc-card">
       <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>Content</div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#introduction"><span class="toc-text">introduction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ford-fulkerson-method"><span class="toc-text">ford-fulkerson method</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#edmonds-karp-algorithm"><span class="toc-text">edmonds-karp algorithm</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dinics-algorithm"><span class="toc-text">dinic&#39;s algorithm</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#implementations"><span class="toc-text">implementations</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#practice"><span class="toc-text">practice</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#introduction"><span class="toc-text">introduction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ford-fulkerson-method"><span class="toc-text">ford-fulkerson method</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#edmonds-karp-algorithm"><span class="toc-text">edmonds-karp algorithm</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dinics-algorithm"><span class="toc-text">dinic&#39;s algorithm</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#implementations"><span class="toc-text">implementations</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#practice"><span class="toc-text">practice</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#kattis-icecream2---ice-cream"><span class="toc-text">kattis icecream2 - ice cream</span></a></li></ol></li></ol></li></ol>
     </div>
   </article>
   
@@ -442,7 +517,7 @@ dinic's algorithm
   
   <article class="card card-content toc-card">
     <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>Content</div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#introduction"><span class="toc-text">introduction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ford-fulkerson-method"><span class="toc-text">ford-fulkerson method</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#edmonds-karp-algorithm"><span class="toc-text">edmonds-karp algorithm</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dinics-algorithm"><span class="toc-text">dinic&#39;s algorithm</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#implementations"><span class="toc-text">implementations</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#practice"><span class="toc-text">practice</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#introduction"><span class="toc-text">introduction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ford-fulkerson-method"><span class="toc-text">ford-fulkerson method</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#edmonds-karp-algorithm"><span class="toc-text">edmonds-karp algorithm</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dinics-algorithm"><span class="toc-text">dinic&#39;s algorithm</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#implementations"><span class="toc-text">implementations</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#practice"><span class="toc-text">practice</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#kattis-icecream2---ice-cream"><span class="toc-text">kattis icecream2 - ice cream</span></a></li></ol></li></ol></li></ol>
   </article>
   
   
