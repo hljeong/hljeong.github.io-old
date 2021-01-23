@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html>
+<meta  lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#fff" id="theme-color">
+  <link rel="icon" href="/img/mphillotry.png">
+  <title>mphillotry's blog</title>
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+    var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+      }
+    };
+    setDarkmode();
+  </script>
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  </script>
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_vpj3dq9ceqa.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  <link rel="preload" href="//cdn.jsdelivr.net/npm/fslightbox@3.1.0/index.min.js" as="script">
+  
+  
+  <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  <link rel="prefetch" href="//cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-svg.js" as="script">
+  
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_vpj3dq9ceqa.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+
+  
+  
+  
+  
+  
+  <link href="/js/lib/prism/prism-tomorrow.min.css" rel="stylesheet" data-prism="prism-tomorrow">
+  
+  
+  
+<link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+
+  
+  
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="wrapper">
+    
+    <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+      <img class="navbar-logo-img" src="/img/mphillotry.png">
+      
+      <span class="navbar-logo-dsc">mphillotry's blog</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+    <a href="/" class="navbar-menu-item">Home </a>
+    
+    <a href="/archives" class="navbar-menu-item">Archive </a>
+    
+    <a href="/tags" class="navbar-menu-item">Tags </a>
+    
+    <a href="/categories" class="navbar-menu-item">Categories </a>
+    
+    <a href="/about" class="navbar-menu-item">About </a>
+    
+    <a href="/links" class="navbar-menu-item">Friends </a>
+    
+    <a class="navbar-menu-item darknavbar" id="dark"><i class="iconfont icon-weather"></i></a>
+  </div>
+</nav>
+    
+    <div class="section-wrap">
+      <div class="container">
+        <div class="columns">
+          <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      codeforces round 695 (div 2)
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2021-01-23T06:00:03.000Z" style="display: flex; align-items: center;">
+      <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
+      <span>2021-01-22</span>
+    </time>
+    
+    <span class="dot"></span>
+    
+    <a href="/categories/set-solutions/" class="post-meta-link">set-solutions</a>
+    
+    
+    
+    <span class="dot"></span>
+    <span>1.2k words</span>
+    
+  </div>
+  
+  <div class="post-meta post-show-meta" style="margin-top: -10px;">
+    <div style="display: flex; align-items: center;">
+      <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
+      
+      
+        <a href="/tags/codeforces/" class="post-meta-link">codeforces</a>
+      
+    </div>
+  </div>
+  
+  </header>
+  <div id="section" class="post-content">
+    <h1 id="a---wizard-of-orz"><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1467/problem/A">a - wizard of orz</a></h1>
+<h2 id="problem-statement">problem statement</h2>
+<p>there are <span class="math inline">\(n\)</span> panels placed in a straight line. each panel can display digits 0 through 9, initially displaying 0.</p>
+<p>each second, the digit displayed on each panel is increased by 1 (digit 9 becomes digit 0).</p>
+<p>one can pause exactly one panel at a chosen time. when a panel is paused, its digit will stop increasing.</p>
+<p>every second after that, unpaused panels adjacent to paused panels become paused. in other words, the pausing propagates towards the left and the right at 1 panel per second.</p>
+<p>find the maximum possible number the digits on the panels represent after all panels have paused.</p>
+<h2 id="solution">solution</h2>
+<p>note that we always can and want to make the first panel display 9.</p>
+<p>suppose our strategy is to pause the first panel when it is displaying 9. this would be optimal for the case where <span class="math inline">\(n = 1\)</span>, but when <span class="math inline">\(n \geq 2\)</span>, we will obtain some number of the form <span class="math inline">\(90...\)</span>, which is worse than pausing the second panel when it is displaying 8, which gives us <span class="math inline">\(98...\)</span>.</p>
+<p>suppose <span class="math inline">\(n \geq 3\)</span> and we pause some panel after the second panel while making sure that the first panel displays 9. then we will obtain some number of the form <span class="math inline">\(987...\)</span>, which is, again, worse than pausing the second panel when it is displaying 8, which gives us <span class="math inline">\(989...\)</span>.</p>
+<p>therefore we pause the first panel at 9 when <span class="math inline">\(n = 1\)</span> and pause the second panel at 8 when <span class="math inline">\(n \geq 2\)</span>.</p>
+<h3 id="code">code</h3>
+<details>
+<summary>
+c++ <span class="math inline">\(\mathcal O(n)\)</span>
+</summary>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;bits/stdc++.h></span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    ios<span class="token operator">::</span><span class="token function">sync_with_stdio</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cin<span class="token punctuation">.</span><span class="token function">tie</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">int</span> t<span class="token punctuation">;</span>
+    cin <span class="token operator">>></span> t<span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>t <span class="token operator">--</span><span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">int</span> n<span class="token punctuation">;</span>
+        cin <span class="token operator">>></span> n<span class="token punctuation">;</span>
+
+        <span class="token comment">// we always want the first digit to be 9</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">'9'</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token comment">// from the second digit on, display 89012...</span>
+            cout <span class="token operator">&lt;&lt;</span> <span class="token punctuation">(</span><span class="token number">8</span> <span class="token operator">+</span> <span class="token punctuation">(</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">10</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        cout <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</details>
+<h1 id="b---hills-and-valleys"><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1467/problem/B">b - hills and valleys</a></h1>
+<h2 id="problem-statement-1">problem statement</h2>
+<p>given array <span class="math inline">\(a\)</span> of length <span class="math inline">\(n\)</span>, define a hill to be</p>
+<ul>
+<li>an index <span class="math inline">\(i\)</span> such that <span class="math inline">\(2 \leq i \leq n\)</span>, <span class="math inline">\(a_i &gt; a_{i - 1}\)</span>, and <span class="math inline">\(a_i &gt; a_{i + 1}\)</span></li>
+</ul>
+<p>and a valley to be</p>
+<ul>
+<li>an index <span class="math inline">\(i\)</span> such that <span class="math inline">\(2 \leq i \leq n\)</span>, <span class="math inline">\(a_i &lt; a_{i - 1}\)</span>, and <span class="math inline">\(a_i &lt; a_{i + 1}\)</span>.</li>
+</ul>
+<p>find the minimum total number of hills and valleys in <span class="math inline">\(a\)</span> after changing at most one value.</p>
+<h2 id="solution-1">solution</h2>
+<p>note that changing a value to one of its adjacent values is always at least as good as changing it to some other value.</p>
+<p>also note that changing a single value affects at most three hills and/or valleys, therefore we can simply try changing every value to its (up to 2) adjacent values in <span class="math inline">\(\mathcal O(n)\)</span>.</p>
+<h3 id="code-1">code</h3>
+<details>
+<summary>
+c++ <span class="math inline">\(\mathcal O(n)\)</span>
+</summary>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;bits/stdc++.h></span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token keyword">int</span> MAXN <span class="token operator">=</span> <span class="token number">3e5</span> <span class="token operator">+</span> <span class="token number">5</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> n<span class="token punctuation">,</span> a<span class="token punctuation">[</span>MAXN<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">bool</span> <span class="token function">hill_or_valley</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">></span> a<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">></span> a<span class="token punctuation">[</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">||</span>
+           a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&lt;</span> a<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&lt;</span> a<span class="token punctuation">[</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// count the number of hills and valleys in i - 1, i, and i + 1</span>
+<span class="token keyword">int</span> <span class="token function">count</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> ans <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">>=</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        ans <span class="token operator">+=</span> <span class="token function">hill_or_valley</span><span class="token punctuation">(</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">>=</span> <span class="token number">1</span> <span class="token operator">&amp;&amp;</span> i <span class="token operator">&lt;</span> n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        ans <span class="token operator">+=</span> <span class="token function">hill_or_valley</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;</span> n <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        ans <span class="token operator">+=</span> <span class="token function">hill_or_valley</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> ans<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">void</span> <span class="token function">minimize</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">&amp;</span>a<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">int</span> b<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>b <span class="token operator">&lt;</span> a<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        a <span class="token operator">=</span> b<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    ios<span class="token operator">::</span><span class="token function">sync_with_stdio</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cin<span class="token punctuation">.</span><span class="token function">tie</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">int</span> t<span class="token punctuation">;</span>
+    cin <span class="token operator">>></span> t<span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>t <span class="token operator">--</span><span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        cin <span class="token operator">>></span> n<span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            cin <span class="token operator">>></span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token comment">// find the number of hills and valleys</span>
+        <span class="token keyword">int</span> original_total <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> ans<span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            original_total <span class="token operator">+=</span> <span class="token function">hill_or_valley</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        ans <span class="token operator">=</span> original_total<span class="token punctuation">;</span>
+
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">int</span> original_value <span class="token operator">=</span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> original_count <span class="token operator">=</span> <span class="token function">count</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">>=</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> a<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token function">minimize</span><span class="token punctuation">(</span>ans<span class="token punctuation">,</span> original_total <span class="token operator">-</span> original_count <span class="token operator">+</span> <span class="token function">count</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;</span> n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> a<span class="token punctuation">[</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token function">minimize</span><span class="token punctuation">(</span>ans<span class="token punctuation">,</span> original_total <span class="token operator">-</span> original_count <span class="token operator">+</span> <span class="token function">count</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+
+            a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> original_value<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+
+        cout <span class="token operator">&lt;&lt;</span> ans <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</details>
+<h1 id="c---three-bags"><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1467/problem/C">c - three bags</a></h1>
+<h2 id="problem-statement-2">problem statement</h2>
+<p>given 3 non-empty multisets of numbers, one can, in one operation,</p>
+<ul>
+<li>select <span class="math inline">\(a\)</span> from one multiset and <span class="math inline">\(b\)</span> from a different multiset,</li>
+<li>remove <span class="math inline">\(b\)</span> from the second multiset, and</li>
+<li>replace <span class="math inline">\(a\)</span> in the first multiset with <span class="math inline">\(a - b\)</span>.</li>
+</ul>
+<p>find the maximum possible number such that it is the only number left after a sequence of the described operation.</p>
+<h2 id="solution-2">solution</h2>
+<p>we can think of a sequence of the operation as a tree.</p>
+<p>each element in the original multisets correspond to a node in the tree, the root of the tree is the last element to be replaced, and the children of each node are the elements that are subtracted from it. note that the children of each node must be from a different multiset.</p>
+<p>the final number is then the sum of elements with even depth minus the sum of elements with odd depth. this will be the value of a tree.</p>
+<p>then we want to minimize the number of nodes with odd depth. suppose we already decided the root of the tree. then depth 1 should consist of elements from the two multisets that do not contain the root. note that we can fit all elements in depth 2 if depth 1 has:</p>
+<ul>
+<li>the minimum element from each of the two multisets, or</li>
+<li>all elements from one of the two multisets.</li>
+</ul>
+<p>the better of the two would yield a maximal value of the tree given a root.</p>
+<p>note that no matter which element we choose within a multiset to be the root, the maximal value of the tree will be the same. then we only need to check 3 possibilities.</p>
+<h3 id="code-2">code</h3>
+<details>
+<summary>
+c++ <span class="math inline">\(\mathcal O(n_1 + n_2 + n_3)\)</span>
+</summary>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;bits/stdc++.h></span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token keyword">int</span> MAXN <span class="token operator">=</span> <span class="token number">3e5</span> <span class="token operator">+</span> <span class="token number">5</span><span class="token punctuation">,</span> INF <span class="token operator">=</span> <span class="token number">1e9</span> <span class="token operator">+</span> <span class="token number">7</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> n<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> a<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">[</span>MAXN<span class="token punctuation">]</span><span class="token punctuation">,</span> minimum<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span>INF<span class="token punctuation">,</span> INF<span class="token punctuation">,</span> INF<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">long</span> <span class="token keyword">long</span> sum<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> <span class="token function">minimize</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">&amp;</span>a<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">int</span> b<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>b <span class="token operator">&lt;</span> a<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        a <span class="token operator">=</span> b<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">void</span> <span class="token function">maximize</span><span class="token punctuation">(</span><span class="token keyword">long</span> <span class="token keyword">long</span> <span class="token operator">&amp;</span>a<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">long</span> <span class="token keyword">long</span> b<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>b <span class="token operator">></span> a<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        a <span class="token operator">=</span> b<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    ios<span class="token operator">::</span><span class="token function">sync_with_stdio</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cin<span class="token punctuation">.</span><span class="token function">tie</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    cin <span class="token operator">>></span> n<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">>></span> n<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">>></span> n<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">3</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> n<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token operator">++</span>j<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            cin <span class="token operator">>></span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token function">minimize</span><span class="token punctuation">(</span>minimum<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            sum<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+=</span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">long</span> <span class="token keyword">long</span> ans <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">3</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">maximize</span><span class="token punctuation">(</span>ans<span class="token punctuation">,</span> sum<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> sum<span class="token punctuation">[</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">-</span> sum<span class="token punctuation">[</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">maximize</span><span class="token punctuation">(</span>ans<span class="token punctuation">,</span> sum<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> sum<span class="token punctuation">[</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">-</span> sum<span class="token punctuation">[</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">maximize</span><span class="token punctuation">(</span>ans<span class="token punctuation">,</span> sum<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> sum<span class="token punctuation">[</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">+</span> sum<span class="token punctuation">[</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">-</span> <span class="token number">2</span> <span class="token operator">*</span> minimum<span class="token punctuation">[</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">-</span> <span class="token number">2</span> <span class="token operator">*</span> minimum<span class="token punctuation">[</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    cout <span class="token operator">&lt;&lt;</span> ans <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</details>
+<h1 id="d---sum-of-paths"><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1467/problem/D">d - sum of paths</a></h1>
+<p><em>coming soon...</em></p>
+<h1 id="e---distinctive-roots-in-a-tree"><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1467/problem/E">e - distinctive roots in a tree</a></h1>
+<p><em>coming soon..</em></p>
+
+  </div>
+  <div>
+  
+  </div>
+</article>
+<div class="nav">
+  
+  
+  <div class="nav-item-next">
+    <a href="/2021/01/12/maximum-flow/" class="nav-link">
+      <div>
+        <div class="nav-label">Next</div>
+        
+        <div class="nav-title">maximum flow </div>
+        
+      </div>
+      <i class="iconfont icon-right nav-next-icon"></i>
+    </a>
+  </div>
+  
+</div>
+
+<div class="card card-content toc-card" id="mobiletoc">
+  <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>Content</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#a---wizard-of-orz"><span class="toc-text">a - wizard of orz</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#b---hills-and-valleys"><span class="toc-text">b - hills and valleys</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement-1"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution-1"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code-1"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#c---three-bags"><span class="toc-text">c - three bags</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement-2"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution-2"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code-2"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#d---sum-of-paths"><span class="toc-text">d - sum of paths</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#e---distinctive-roots-in-a-tree"><span class="toc-text">e - distinctive roots in a tree</span></a></li></ol>
+</div></main>
+          <aside class="left-column">
+            
+            <div class="card card-author">
+              
+<img src="/img/mphillotry.png" class="author-img">
+
+<p class="author-name">mphillotry</p>
+<p class="author-description">Ho Lyun Jeong | UCLA '24</p>
+<div class="author-message">
+  <a class="author-posts-count" href="/archives">
+    <span>5</span>
+    <span>Posts</span>
+  </a>
+  <a class="author-categories-count" href="/categories">
+    <span>3</span>
+    <span>Categories</span>
+  </a>
+  <a class="author-tags-count" href="/tags">
+    <span>6</span>
+    <span>Tags</span>
+  </a>
+</div>
+
+<div class="author-card-society">
+  
+    <div class="author-card-society-icon">
+      <a target="_blank" rel="noopener" href="https://github.com/hljeong">
+        <i class="iconfont icon-github society-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+            </div>
+            
+            <div class="sticky-tablet">
+  
+  
+  <article class="display-when-two-columns spacer">
+    <div class="card card-content toc-card">
+      <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>Content</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#a---wizard-of-orz"><span class="toc-text">a - wizard of orz</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#b---hills-and-valleys"><span class="toc-text">b - hills and valleys</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement-1"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution-1"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code-1"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#c---three-bags"><span class="toc-text">c - three bags</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement-2"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution-2"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code-2"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#d---sum-of-paths"><span class="toc-text">d - sum of paths</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#e---distinctive-roots-in-a-tree"><span class="toc-text">e - distinctive roots in a tree</span></a></li></ol>
+    </div>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="categories-card">
+  <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>Categories</div>
+  <div class="categories-list">
+    
+      <a href="/categories/problem-solution">
+        <div class="categories-list-item">
+          problem-solution
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/set-solutions">
+        <div class="categories-list-item">
+          set-solutions
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/topics">
+        <div class="categories-list-item">
+          topics
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content">
+    <div class="tags-card">
+  <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>Trending tags</div>
+  <div class="tags-list">
+    
+    <a href="\tags\codeforces" title="codeforces"><div class="tags-list-item">codeforces</div></a>
+    
+    <a href="\tags\data-structure" title="data-structure"><div class="tags-list-item">data-structure</div></a>
+    
+    <a href="\tags\network-flow" title="network-flow"><div class="tags-list-item">network-flow</div></a>
+    
+    <a href="\tags\graph-theory" title="graph-theory"><div class="tags-list-item">graph-theory</div></a>
+    
+    <a href="\tags\math" title="math"><div class="tags-list-item">math</div></a>
+    
+    <a href="\tags\spoj" title="spoj"><div class="tags-list-item">spoj</div></a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+          <aside class="right-column">
+            <div class="sticky-widescreen">
+  
+  
+  <article class="card card-content toc-card">
+    <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>Content</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#a---wizard-of-orz"><span class="toc-text">a - wizard of orz</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#b---hills-and-valleys"><span class="toc-text">b - hills and valleys</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement-1"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution-1"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code-1"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#c---three-bags"><span class="toc-text">c - three bags</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement-2"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution-2"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code-2"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#d---sum-of-paths"><span class="toc-text">d - sum of paths</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#e---distinctive-roots-in-a-tree"><span class="toc-text">e - distinctive roots in a tree</span></a></li></ol>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>Recent posts</div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-01-22</div>
+        <a href="/2021/01/22/codeforces-round-695-div-2/"><div class="recent-posts-item-content">codeforces round 695 (div 2)</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-01-12</div>
+        <a href="/2021/01/12/maximum-flow/"><div class="recent-posts-item-content">maximum flow</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-01-08</div>
+        <a href="/2021/01/08/spoj-sumsum-enjoy-sum-with-operations/"><div class="recent-posts-item-content">spoj sumsum - enjoy sum with operations</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-01-07</div>
+        <a href="/2021/01/07/fenwick-tree-binary-indexed-tree/"><div class="recent-posts-item-content">fenwick tree (binary indexed tree)</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>Copyright ©
+          
+          2021
+        </span>
+        <a href="/" class="footer-link">&nbsp;mphillotry's blog </a>
+      </div>
+    </div>
+
+    
+    <div class="footer-dsc">
+      
+      
+      Powered by
+      <a href="https://hexo.io/" class="footer-link" target="_blank" rel="nofollow noopener noreferrer">&nbsp;Hexo </a>
+      
+      
+      <span>&nbsp;|&nbsp;</span>
+      
+      
+      
+      Theme -
+      <a href="https://github.com/theme-kaze" class="footer-link" target="_blank"
+        rel="nofollow noopener noreferrer">&nbsp;Kaze</a>
+      
+    </div>
+    
+    
+    
+    
+</footer>
+  <a role="button" id="scrollbutton" class="basebutton" >
+  <i class="iconfont icon-arrowleft button-icon"></i>
+</a>
+<a role="button" id="menubutton" class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a role="button" id="popbutton" class="basebutton">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a role="button" id="darkbutton" class="basebutton darkwidget">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+
+  
+  
+  
+
+  
+  
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        }
+      };
+    </script>
+    
+<script src="//cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-svg.js"></script>
+
+  
+
+  
+  
+  <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img');
+    var i;
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a');
+      wrapper.setAttribute('data-fslightbox', 'gallery');
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'));
+      wrapper.setAttribute('style', 'width: 100%; display: flex; justify-content: center;');
+      img[i].parentElement.insertBefore(wrapper, img[i]);
+      wrapper.appendChild(img[i]);
+    }
+    refreshFsLightbox();
+  }
+</script>
+<script>loadScript("//cdn.jsdelivr.net/npm/fslightbox@3.1.0/index.min.js", addImgLayout)</script>
+  
+  
+  
+<script src="/js/main.js"></script>
+
+  
+  
+  <script>
+    var addLazyload = function () {
+      var observer = lozad('.lozad', {
+        load: function (el) {
+          el.srcset = el.getAttribute('data-src');
+        },
+        loaded: function (el) {
+          el.classList.add('loaded');
+        }
+      });
+      observer.observe();
+    }
+  </script>
+  <script>loadScript("/js/lib/lozad.min.js", addLazyload)</script>
+  
+  
+</body>
+
+</html>
