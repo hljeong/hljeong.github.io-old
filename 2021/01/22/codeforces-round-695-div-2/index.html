@@ -166,7 +166,7 @@
     
     
     <span class="dot"></span>
-    <span>1.2k words</span>
+    <span>1.7k words</span>
     
   </div>
   
@@ -191,8 +191,8 @@
 <p>find the maximum possible number the digits on the panels represent after all panels have paused.</p>
 <h2 id="solution">solution</h2>
 <p>note that we always can and want to make the first panel display 9.</p>
-<p>suppose our strategy is to pause the first panel when it is displaying 9. this would be optimal for the case where <span class="math inline">\(n = 1\)</span>, but when <span class="math inline">\(n \geq 2\)</span>, we will obtain some number of the form <span class="math inline">\(90...\)</span>, which is worse than pausing the second panel when it is displaying 8, which gives us <span class="math inline">\(98...\)</span>.</p>
-<p>suppose <span class="math inline">\(n \geq 3\)</span> and we pause some panel after the second panel while making sure that the first panel displays 9. then we will obtain some number of the form <span class="math inline">\(987...\)</span>, which is, again, worse than pausing the second panel when it is displaying 8, which gives us <span class="math inline">\(989...\)</span>.</p>
+<p>suppose our strategy is to pause the first panel when it is displaying 9. this would be optimal for the case where <span class="math inline">\(n = 1\)</span>, but when <span class="math inline">\(n \geq 2\)</span>, we will obtain some number of the form <span class="math inline">\(90\dots\)</span>, which is worse than pausing the second panel when it is displaying 8, which gives us <span class="math inline">\(98\dots\)</span>.</p>
+<p>suppose <span class="math inline">\(n \geq 3\)</span> and we pause some panel after the second panel while making sure that the first panel displays 9. then we will obtain some number of the form <span class="math inline">\(987\dots\)</span>, which is, again, worse than pausing the second panel when it is displaying 8, which gives us <span class="math inline">\(989\dots\)</span>.</p>
 <p>therefore we pause the first panel at 9 when <span class="math inline">\(n = 1\)</span> and pause the second panel at 8 when <span class="math inline">\(n \geq 2\)</span>.</p>
 <h3 id="code">code</h3>
 <details>
@@ -327,13 +327,13 @@ c++ <span class="math inline">\(\mathcal O(n)\)</span>
 <p>we can think of a sequence of the operation as a tree.</p>
 <p>each element in the original multisets correspond to a node in the tree, the root of the tree is the last element to be replaced, and the children of each node are the elements that are subtracted from it. note that the children of each node must be from a different multiset.</p>
 <p>the final number is then the sum of elements with even depth minus the sum of elements with odd depth. this will be the value of a tree.</p>
-<p>then we want to minimize the number of nodes with odd depth. suppose we already decided the root of the tree. then depth 1 should consist of elements from the two multisets that do not contain the root. note that we can fit all elements in depth 2 if depth 1 has:</p>
+<p>then we want to minimize the sum of elements with odd depth. suppose we already decided the root of the tree. then depth 1 should consist of elements from the two multisets that do not contain the root. note that we can fit all elements in depth 2 if depth 1 has:</p>
 <ul>
 <li>the minimum element from each of the two multisets, or</li>
 <li>all elements from one of the two multisets.</li>
 </ul>
 <p>the better of the two would yield a maximal value of the tree given a root.</p>
-<p>note that no matter which element we choose within a multiset to be the root, the maximal value of the tree will be the same. then we only need to check 3 possibilities.</p>
+<p>note that no matter which element we choose within the same multiset to be the root, the maximal value of the tree will be the same. then we only need to check 3 possibilities.</p>
 <h3 id="code-2">code</h3>
 <details>
 <summary>
@@ -382,9 +382,95 @@ c++ <span class="math inline">\(\mathcal O(n_1 + n_2 + n_3)\)</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 </details>
 <h1 id="d---sum-of-paths"><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1467/problem/D">d - sum of paths</a></h1>
-<p><em>coming soon...</em></p>
+<h2 id="problem-statement-3">problem statement</h2>
+<p>given a number <span class="math inline">\(k\)</span> and <span class="math inline">\(n\)</span> cells arranged in a row, each containing a value <span class="math inline">\(a_i\)</span>, define a good path to be a sequence of cells <span class="math inline">\(c_0, c_1, \dots\)</span> such that <span class="math inline">\(c_i\)</span> and <span class="math inline">\(c_{i + 1}\)</span> are adjacent for all <span class="math inline">\(i\)</span>.</p>
+<p>define the value of a good path <span class="math inline">\(c_0, c_1, \dots\)</span> to be <span class="math inline">\(a_{c_0} + a_{c_1} + \cdots\)</span>.</p>
+<p>given <span class="math inline">\(q\)</span> queries of the form <span class="math inline">\(i, x\)</span>, update <span class="math inline">\(a_i\)</span> to be <span class="math inline">\(x\)</span> and output the sum of values of all good paths of length <span class="math inline">\(k\)</span>.</p>
+<h2 id="solution-3">solution</h2>
+<p>we can calculate for each <span class="math inline">\(i\)</span> the number of times <span class="math inline">\(cnt_i\)</span> cell <span class="math inline">\(i\)</span> appears in a good path of length <span class="math inline">\(k\)</span>. note that this number does not change between queries.</p>
+<p>to calculate <span class="math inline">\(cnt_i\)</span>, we first calculate $dp_{i, j} = $ the number of good paths of length <span class="math inline">\(i\)</span> ending at cell <span class="math inline">\(j\)</span>. note that <span class="math inline">\(dp_{0, i} = 1\)</span> for all <span class="math inline">\(i\)</span>. the transition is as follows: <span class="math display">\[
+    dp_{i, j} = \begin{cases}
+        dp_{i - 1, 1} &amp; j = 0 \\
+        dp_{i - 1, n - 2} &amp; j = n - 1 \\
+        dp_{i - 1, j - 1} + dp_{i - 1, j + 1}.
+    \end{cases}
+\]</span></p>
+<p>it takes <span class="math inline">\(\mathcal O(nk)\)</span> time to compute all of the <span class="math inline">\(dp\)</span> values.</p>
+<p>then <span class="math inline">\(cnt_i = \sum_{j = 0}^k dp_{j, i} \times dp_{k - j, i}\)</span> is the number of times cell <span class="math inline">\(i\)</span> appears in a good path of length <span class="math inline">\(k\)</span>. this step also takes <span class="math inline">\(\mathcal O(nk)\)</span> time.</p>
+<p>then for each query, simply update <span class="math inline">\(a_i\)</span> and the sum in <span class="math inline">\(\mathcal O(1)\)</span>.</p>
+<h3 id="code-3">code</h3>
+<details>
+<summary>
+c++ <span class="math inline">\(\mathcal O(nk + q)\)</span>
+</summary>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;bits/stdc++.h></span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token keyword">int</span> MAXN <span class="token operator">=</span> <span class="token number">5005</span><span class="token punctuation">,</span> MAXK <span class="token operator">=</span> <span class="token number">5005</span><span class="token punctuation">,</span> MOD <span class="token operator">=</span> <span class="token number">1e9</span> <span class="token operator">+</span> <span class="token number">7</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> n<span class="token punctuation">,</span> k<span class="token punctuation">,</span> q<span class="token punctuation">,</span> ans <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> a<span class="token punctuation">[</span>MAXN<span class="token punctuation">]</span><span class="token punctuation">,</span> dp<span class="token punctuation">[</span>MAXK<span class="token punctuation">]</span><span class="token punctuation">[</span>MAXN<span class="token punctuation">]</span><span class="token punctuation">,</span> cnt<span class="token punctuation">[</span>MAXN<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    ios<span class="token operator">::</span><span class="token function">sync_with_stdio</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cin<span class="token punctuation">.</span><span class="token function">tie</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    cin <span class="token operator">>></span> n <span class="token operator">>></span> k <span class="token operator">>></span> q<span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        cin <span class="token operator">>></span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        dp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> k<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> dp<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> dp<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>n <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token operator">++</span>j<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> dp<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span> dp<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">>=</span> MOD<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">-=</span> MOD<span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> k<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> <span class="token operator">++</span>j<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            cnt<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">+=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">long</span> <span class="token keyword">long</span><span class="token punctuation">)</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">*</span> dp<span class="token punctuation">[</span>k <span class="token operator">-</span> i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">%</span> MOD<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>cnt<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">>=</span> MOD<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                cnt<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">-=</span> MOD<span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        ans <span class="token operator">+=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">long</span> <span class="token keyword">long</span><span class="token punctuation">)</span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">*</span> cnt<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">%</span> MOD<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>ans <span class="token operator">>=</span> MOD<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            ans <span class="token operator">-=</span> MOD<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>q <span class="token operator">--</span><span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">int</span> i<span class="token punctuation">,</span> x<span class="token punctuation">;</span>
+        cin <span class="token operator">>></span> i <span class="token operator">>></span> x<span class="token punctuation">;</span>
+        <span class="token operator">--</span>i<span class="token punctuation">;</span>
+
+        ans <span class="token operator">+=</span> MOD <span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">long</span> <span class="token keyword">long</span><span class="token punctuation">)</span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">*</span> cnt<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">%</span> MOD<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>ans <span class="token operator">>=</span> MOD<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            ans <span class="token operator">-=</span> MOD<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+
+        a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> x<span class="token punctuation">;</span>
+
+        ans <span class="token operator">+=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">long</span> <span class="token keyword">long</span><span class="token punctuation">)</span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">*</span> cnt<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">%</span> MOD<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>ans <span class="token operator">>=</span> MOD<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            ans <span class="token operator">-=</span> MOD<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+
+        cout <span class="token operator">&lt;&lt;</span> ans <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</details>
 <h1 id="e---distinctive-roots-in-a-tree"><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1467/problem/E">e - distinctive roots in a tree</a></h1>
-<p><em>coming soon..</em></p>
+<p>sorry but i did not want to do this problem...</p>
+<p>however here is a picture of a cat.</p>
+<p><a target="_blank" rel="noopener" href="https://imgur.com/sIVvA1K"><img src="https://i.imgur.com/sIVvA1K.jpg" title="source: imgur.com" width="75%"/ srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://i.imgur.com/sIVvA1K.jpg" class="lozad post-image"></a></p>
 
   </div>
   <div>
@@ -410,7 +496,7 @@ c++ <span class="math inline">\(\mathcal O(n_1 + n_2 + n_3)\)</span>
 
 <div class="card card-content toc-card" id="mobiletoc">
   <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>Content</div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#a---wizard-of-orz"><span class="toc-text">a - wizard of orz</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#b---hills-and-valleys"><span class="toc-text">b - hills and valleys</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement-1"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution-1"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code-1"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#c---three-bags"><span class="toc-text">c - three bags</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement-2"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution-2"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code-2"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#d---sum-of-paths"><span class="toc-text">d - sum of paths</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#e---distinctive-roots-in-a-tree"><span class="toc-text">e - distinctive roots in a tree</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#a---wizard-of-orz"><span class="toc-text">a - wizard of orz</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#b---hills-and-valleys"><span class="toc-text">b - hills and valleys</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement-1"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution-1"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code-1"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#c---three-bags"><span class="toc-text">c - three bags</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement-2"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution-2"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code-2"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#d---sum-of-paths"><span class="toc-text">d - sum of paths</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement-3"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution-3"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code-3"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#e---distinctive-roots-in-a-tree"><span class="toc-text">e - distinctive roots in a tree</span></a></li></ol>
 </div></main>
           <aside class="left-column">
             
@@ -453,7 +539,7 @@ c++ <span class="math inline">\(\mathcal O(n_1 + n_2 + n_3)\)</span>
   <article class="display-when-two-columns spacer">
     <div class="card card-content toc-card">
       <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>Content</div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#a---wizard-of-orz"><span class="toc-text">a - wizard of orz</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#b---hills-and-valleys"><span class="toc-text">b - hills and valleys</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement-1"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution-1"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code-1"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#c---three-bags"><span class="toc-text">c - three bags</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement-2"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution-2"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code-2"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#d---sum-of-paths"><span class="toc-text">d - sum of paths</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#e---distinctive-roots-in-a-tree"><span class="toc-text">e - distinctive roots in a tree</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#a---wizard-of-orz"><span class="toc-text">a - wizard of orz</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#b---hills-and-valleys"><span class="toc-text">b - hills and valleys</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement-1"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution-1"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code-1"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#c---three-bags"><span class="toc-text">c - three bags</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement-2"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution-2"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code-2"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#d---sum-of-paths"><span class="toc-text">d - sum of paths</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement-3"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution-3"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code-3"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#e---distinctive-roots-in-a-tree"><span class="toc-text">e - distinctive roots in a tree</span></a></li></ol>
     </div>
   </article>
   
@@ -462,13 +548,6 @@ c++ <span class="math inline">\(\mathcal O(n_1 + n_2 + n_3)\)</span>
     <div class="categories-card">
   <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>Categories</div>
   <div class="categories-list">
-    
-      <a href="/categories/problem-solution">
-        <div class="categories-list-item">
-          problem-solution
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
     
       <a href="/categories/set-solutions">
         <div class="categories-list-item">
@@ -484,6 +563,13 @@ c++ <span class="math inline">\(\mathcal O(n_1 + n_2 + n_3)\)</span>
         </div>
       </a>
     
+      <a href="/categories/problem-solution">
+        <div class="categories-list-item">
+          problem-solution
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
   </div>
 </div>
   </article>
@@ -493,17 +579,17 @@ c++ <span class="math inline">\(\mathcal O(n_1 + n_2 + n_3)\)</span>
   <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>Trending tags</div>
   <div class="tags-list">
     
-    <a href="\tags\codeforces" title="codeforces"><div class="tags-list-item">codeforces</div></a>
-    
     <a href="\tags\data-structure" title="data-structure"><div class="tags-list-item">data-structure</div></a>
     
-    <a href="\tags\network-flow" title="network-flow"><div class="tags-list-item">network-flow</div></a>
-    
-    <a href="\tags\graph-theory" title="graph-theory"><div class="tags-list-item">graph-theory</div></a>
+    <a href="\tags\codeforces" title="codeforces"><div class="tags-list-item">codeforces</div></a>
     
     <a href="\tags\math" title="math"><div class="tags-list-item">math</div></a>
     
     <a href="\tags\spoj" title="spoj"><div class="tags-list-item">spoj</div></a>
+    
+    <a href="\tags\network-flow" title="network-flow"><div class="tags-list-item">network-flow</div></a>
+    
+    <a href="\tags\graph-theory" title="graph-theory"><div class="tags-list-item">graph-theory</div></a>
     
   </div>
 </div>
@@ -518,7 +604,7 @@ c++ <span class="math inline">\(\mathcal O(n_1 + n_2 + n_3)\)</span>
   
   <article class="card card-content toc-card">
     <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>Content</div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#a---wizard-of-orz"><span class="toc-text">a - wizard of orz</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#b---hills-and-valleys"><span class="toc-text">b - hills and valleys</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement-1"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution-1"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code-1"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#c---three-bags"><span class="toc-text">c - three bags</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement-2"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution-2"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code-2"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#d---sum-of-paths"><span class="toc-text">d - sum of paths</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#e---distinctive-roots-in-a-tree"><span class="toc-text">e - distinctive roots in a tree</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#a---wizard-of-orz"><span class="toc-text">a - wizard of orz</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#b---hills-and-valleys"><span class="toc-text">b - hills and valleys</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement-1"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution-1"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code-1"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#c---three-bags"><span class="toc-text">c - three bags</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement-2"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution-2"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code-2"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#d---sum-of-paths"><span class="toc-text">d - sum of paths</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-statement-3"><span class="toc-text">problem statement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solution-3"><span class="toc-text">solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#code-3"><span class="toc-text">code</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#e---distinctive-roots-in-a-tree"><span class="toc-text">e - distinctive roots in a tree</span></a></li></ol>
   </article>
   
   

@@ -175,12 +175,12 @@
       <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
       
       
-        <a href="/tags/spoj/" class="post-meta-link">spoj</a>
+        <a href="/tags/data-structure/" class="post-meta-link">data-structure</a>
       
       
       <span class="dot"></span>
       
-        <a href="/tags/data-structure/" class="post-meta-link">data-structure</a>
+        <a href="/tags/spoj/" class="post-meta-link">spoj</a>
       
       
       <span class="dot"></span>
@@ -201,7 +201,7 @@
 </ol>
 <h2 id="solution">solution</h2>
 <p>let's look at the second type of queries. first, note that since they only concern bitwise operations, we can compute the contribution of each bit independently.</p>
-<p>the query then simplifies to "given an array <span class="math inline">\(b\)</span> of bits of length <span class="math inline">\(n\)</span>, find the number of pairs of elements that have a bitwise OR (or AND or XOR) of 1 in <span class="math inline">\(\{b_i, b_{i + 1}, dots, b_j\}\)</span>." we can easily find this value if we know the number of elements, <span class="math inline">\(k = j - i + 1\)</span>, the number of 0s, <span class="math inline">\(cnt0\)</span>, and the number of 1s, <span class="math inline">\(cnt1\)</span>, in <span class="math inline">\(\{b_i, b_{i + 1}, \dots, b_j\}\)</span>:</p>
+<p>the query then simplifies to "given an array <span class="math inline">\(b\)</span> of bits of length <span class="math inline">\(n\)</span>, find the number of pairs of elements that have a bitwise OR (or AND or XOR) of 1 in <span class="math inline">\(\{b_i, b_{i + 1}, \dots, b_j\}\)</span>." we can easily find this value if we know the number of elements, <span class="math inline">\(k = j - i + 1\)</span>, the number of 0s, <span class="math inline">\(cnt0\)</span>, and the number of 1s, <span class="math inline">\(cnt1\)</span>, in <span class="math inline">\(\{b_i, b_{i + 1}, \dots, b_j\}\)</span>:</p>
 <ul>
 <li><span class="math inline">\(\text{number of pairs that have a bitwise OR of 1} = \begin{pmatrix} k \\ 2 \end{pmatrix} - \begin{pmatrix} cnt0 \\ 2 \end{pmatrix}\)</span></li>
 <li><span class="math inline">\(\text{number of pairs that have a bitwise AND of 1} = \begin{pmatrix} cnt1 \\ 2 \end{pmatrix}\)</span></li>
@@ -383,13 +383,6 @@ vector<span class="token operator">&lt;</span><span class="token keyword">int</s
   <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>Categories</div>
   <div class="categories-list">
     
-      <a href="/categories/problem-solution">
-        <div class="categories-list-item">
-          problem-solution
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
       <a href="/categories/set-solutions">
         <div class="categories-list-item">
           set-solutions
@@ -404,6 +397,13 @@ vector<span class="token operator">&lt;</span><span class="token keyword">int</s
         </div>
       </a>
     
+      <a href="/categories/problem-solution">
+        <div class="categories-list-item">
+          problem-solution
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
   </div>
 </div>
   </article>
@@ -413,17 +413,17 @@ vector<span class="token operator">&lt;</span><span class="token keyword">int</s
   <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>Trending tags</div>
   <div class="tags-list">
     
-    <a href="\tags\codeforces" title="codeforces"><div class="tags-list-item">codeforces</div></a>
-    
     <a href="\tags\data-structure" title="data-structure"><div class="tags-list-item">data-structure</div></a>
     
-    <a href="\tags\network-flow" title="network-flow"><div class="tags-list-item">network-flow</div></a>
-    
-    <a href="\tags\graph-theory" title="graph-theory"><div class="tags-list-item">graph-theory</div></a>
+    <a href="\tags\codeforces" title="codeforces"><div class="tags-list-item">codeforces</div></a>
     
     <a href="\tags\math" title="math"><div class="tags-list-item">math</div></a>
     
     <a href="\tags\spoj" title="spoj"><div class="tags-list-item">spoj</div></a>
+    
+    <a href="\tags\network-flow" title="network-flow"><div class="tags-list-item">network-flow</div></a>
+    
+    <a href="\tags\graph-theory" title="graph-theory"><div class="tags-list-item">graph-theory</div></a>
     
   </div>
 </div>
